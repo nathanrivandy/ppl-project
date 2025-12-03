@@ -5,11 +5,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 import { Form, Head } from '@inertiajs/react';
+import { Check } from 'lucide-react';
 
 interface LoginProps {
     status?: string;
@@ -28,6 +30,15 @@ export default function Login({
             description="Masukkan email dan password untuk melanjutkan"
         >
             <Head title="Login" />
+
+            {status && (
+                <Alert variant="success" className="mb-6">
+                    <Check />
+                    <AlertDescription className="font-medium">
+                        {status}
+                    </AlertDescription>
+                </Alert>
+            )}
 
             <Form
                 {...store.form()}
@@ -109,12 +120,6 @@ export default function Login({
                     </>
                 )}
             </Form>
-
-            {status && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
         </AuthLayout>
     );
 }

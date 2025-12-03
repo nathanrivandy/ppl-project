@@ -59,6 +59,14 @@ class Seller extends Model
     }
 
     /**
+     * Get the products for this seller.
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    /**
      * Check if seller is approved
      */
     public function isApproved(): bool

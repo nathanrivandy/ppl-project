@@ -9,6 +9,8 @@ use App\Http\Controllers\Platform\SellerVerificationController;
 use App\Http\Controllers\Platform\DashboardController as PlatformDashboardController;
 use App\Http\Controllers\Platform\ReportController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
+use App\Http\Controllers\Seller\RejectionController;
+use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Api\LocationController;
 
 Route::get('/', function () {
@@ -37,6 +39,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         if ($user->isPlatform()) {
             return redirect()->route('platform.dashboard');
         } elseif ($user->isPenjual()) {
+            // Check if seller is rejected
+            $seller = $user->seller;
+            if ($seller && $seller->status_verifikasi === 'rejected') {
+                return redirect()->route('seller.rejection');
+            }
             return redirect()->route('seller.dashboard');
         }
         
@@ -70,6 +77,11 @@ Route::middleware(['auth', 'verified', 'platform'])->prefix('platform')->name('p
 Route::middleware(['auth', 'verified', 'penjual'])->prefix('seller')->name('seller.')->group(function () {
     Route::get('dashboard', [SellerDashboardController::class, 'index'])
         ->name('dashboard');
+    Route::get('rejection', [RejectionController::class, 'show'])
+        ->name('rejection');
+    
+    // Product Management
+    Route::resource('products', ProductController::class);
 });
 
 require __DIR__.'/settings.php';

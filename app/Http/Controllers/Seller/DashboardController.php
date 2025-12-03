@@ -17,6 +17,11 @@ class DashboardController extends Controller
             return redirect()->route('dashboard')->with('error', 'Anda belum terdaftar sebagai penjual');
         }
 
+        // Redirect to rejection page if seller is rejected
+        if ($seller->status_verifikasi === 'rejected') {
+            return redirect()->route('seller.rejection');
+        }
+
         // Sebaran jumlah stok setiap produk (placeholder - akan diimplementasi saat fitur produk dibuat)
         $productStock = [
             ['name' => 'Produk A', 'value' => 150],

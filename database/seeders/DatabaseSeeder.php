@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PlatformUserSeeder::class,
+            CategorySeeder::class,
         ]);
 
         User::firstOrCreate(
