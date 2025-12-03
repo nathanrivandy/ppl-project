@@ -37,11 +37,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
         if ($user->isPlatform()) {
             return redirect()->route('platform.dashboard');
         } elseif ($user->isPenjual()) {
+            // Check if seller is verified
+            if (!$user->is_active) {
+                return redirect()->route('seller.pending-verification');
+            }
             return redirect()->route('seller.dashboard');
         }
         
         return Inertia::render('dashboard');
     })->name('dashboard');
+    
+    // Pending verification page for sellers
+    Route::get('seller/pending-verification', function () {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        
+        if (!$user->isPenjual()) {
+            return redirect()->route('dashboard');
+        }
+        
+        $seller = $user->seller;
+        
+        return Inertia::render('seller/pending-verification', [
+            'seller' => $seller,
+        ]);
+    })->name('seller.pending-verification');
 });
 
 // Platform Admin Routes

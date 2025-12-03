@@ -20,7 +20,8 @@ class EnsurePenjualRole
         }
 
         if (!$request->user()->is_active) {
-            abort(403, 'Akun Anda belum diaktifkan. Silakan tunggu proses verifikasi.');
+            // Redirect to pending verification page instead of aborting
+            return redirect()->route('seller.pending-verification');
         }
 
         return $next($request);
