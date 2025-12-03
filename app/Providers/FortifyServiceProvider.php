@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\LoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,7 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
+        $this->configureLoginResponse();
     }
 
     /**
@@ -86,6 +88,31 @@ class FortifyServiceProvider extends ServiceProvider
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
+        });
+    }
+
+    /**
+     * Configure custom login response.
+     */
+    private function configureLoginResponse(): void
+    {
+        $this->app->singleton(LoginResponse::class, function () {
+            return new class implements LoginResponse {
+                public function toResponse($request)
+                {
+                    $user = $request->user();
+                    
+                    // Check if user is seller with rejected status
+                    if ($user->isPenjual()) {
+                        $seller = $user->seller;
+                        if ($seller && $seller->status_verifikasi === 'rejected') {
+                            return redirect()->route('seller.rejection');
+                        }
+                    }
+                    
+                    return redirect()->intended(route('dashboard', absolute: false));
+                }
+            };
         });
     }
 }

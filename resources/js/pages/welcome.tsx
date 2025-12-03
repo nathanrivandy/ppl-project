@@ -1,11 +1,35 @@
 import { dashboard, login } from '@/routes';
 import { type SharedData } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, usePage, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { LogOut, LayoutDashboard, ChevronDown, XCircle } from 'lucide-react';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
+
+    const getInitials = (name: string) => {
+        return name
+            .split(' ')
+            .map(word => word[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2);
+    };
+
+    const handleLogout = () => {
+        router.post('/logout');
+    };
 
     return (
         <>
@@ -22,9 +46,48 @@ export default function Welcome() {
                             
                             <div className="flex items-center gap-4">
                                 {auth.user ? (
-                                    <Link href={dashboard()}>
-                                        <Button className="bg-blue-600 hover:bg-blue-700 text-white">Dashboard</Button>
-                                    </Link>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" className="flex items-center gap-2 h-auto py-2 hover:bg-gray-100">
+                                                <Avatar className="h-8 w-8">
+                                                    <AvatarFallback className="bg-blue-600 text-white text-sm">
+                                                        {getInitials(auth.user.name)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <div className="flex flex-col items-start">
+                                                    <span className="text-sm font-medium text-gray-900">{auth.user.name}</span>
+                                                    {auth.user.seller && (
+                                                        <span className="text-xs text-gray-500">{auth.user.seller.nama_toko}</span>
+                                                    )}
+                                                </div>
+                                                <ChevronDown className="h-4 w-4 text-gray-500" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end" className="w-56">
+                                            <DropdownMenuLabel>
+                                                <div className="flex flex-col">
+                                                    <span className="font-medium">{auth.user.name}</span>
+                                                    <span className="text-xs text-gray-500 font-normal">{auth.user.email}</span>
+                                                </div>
+                                            </DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            {auth.user.seller?.status_verifikasi !== 'rejected' && (
+                                                <>
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={dashboard()} className="flex items-center cursor-pointer">
+                                                            <LayoutDashboard className="mr-2 h-4 w-4" />
+                                                            Dashboard
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuSeparator />
+                                                </>
+                                            )}
+                                            <DropdownMenuItem onClick={handleLogout} className="text-red-600 cursor-pointer">
+                                                <LogOut className="mr-2 h-4 w-4" />
+                                                Log out
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 ) : (
                                     <>
                                         <Link href={login()}>
@@ -39,6 +102,22 @@ export default function Welcome() {
                         </nav>
                     </div>
                 </header>
+
+                {/* Rejection Alert */}
+                {auth.user?.seller?.status_verifikasi === 'rejected' && (
+                    <div className="bg-red-50 border-b border-red-200">
+                        <div className="container mx-auto px-4 py-4">
+                            <Alert variant="destructive" className="border-red-300">
+                                <XCircle className="h-4 w-4" />
+                                <AlertDescription className="flex items-center justify-between">
+                                    <span>
+                                        Pendaftaran toko Anda ditolak. <Link href="/seller/rejection" className="underline font-semibold">Lihat alasan penolakan</Link>
+                                    </span>
+                                </AlertDescription>
+                            </Alert>
+                        </div>
+                    </div>
+                )}
 
                 {/* Hero Section */}
                 <section className="container mx-auto px-4 py-20 text-center bg-gradient-to-b from-blue-50 to-white">

@@ -38,6 +38,12 @@ export interface User {
     email_verified_at: string | null;
     two_factor_enabled?: boolean;
     role: 'platform' | 'penjual' | 'pengunjung';
+    seller?: {
+        id: number;
+        nama_toko: string;
+        status_verifikasi: 'pending' | 'approved' | 'rejected';
+        alasan_penolakan?: string | null;
+    };
     created_at: string;
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...

@@ -13,7 +13,7 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, UserCheck } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, UserCheck, Package } from 'lucide-react';
 import AppLogo from './app-logo';
 import platform from '@/routes/platform';
 
@@ -31,6 +31,12 @@ export function AppSidebar() {
             href: dashboard(),
             icon: LayoutGrid,
         },
+        // Menu produk hanya untuk seller
+        ...(user.role === 'penjual' ? [{
+            title: 'Produk',
+            href: '/seller/products',
+            icon: Package,
+        }] : []),
         // Menu verifikasi hanya untuk platform admin
         ...(user.role === 'platform' ? [{
             title: 'Verifikasi Penjual',

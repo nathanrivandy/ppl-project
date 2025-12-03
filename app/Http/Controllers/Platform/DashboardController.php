@@ -22,7 +22,7 @@ class DashboardController extends Controller
             ['name' => 'Kesehatan', 'value' => 15],
         ];
 
-        // Sebaran toko berdasarkan provinsi
+        // Sebaran toko berdasarkan provinsi (hanya seller approved)
         $sellersByProvince = Seller::where('status_verifikasi', 'approved')
             ->select('propinsi', DB::raw('count(*) as total'))
             ->groupBy('propinsi')
@@ -36,15 +36,19 @@ class DashboardController extends Controller
                 ];
             });
 
-        // Jumlah user penjual aktif dan tidak aktif
+        // Jumlah user penjual aktif dan tidak aktif (berdasarkan produk yang diupload)
+        // Untuk sekarang menggunakan placeholder, nanti akan dihitung dari tabel products
+        $activeSellerCount = 0; // TODO: Count sellers with products
+        $inactiveSellerCount = Seller::where('status_verifikasi', 'approved')->count() - $activeSellerCount;
+        
         $sellerStatus = [
             [
-                'name' => 'Aktif',
-                'value' => User::where('role', 'penjual')->where('is_active', true)->count()
+                'name' => 'Aktif (Ada Produk)',
+                'value' => $activeSellerCount
             ],
             [
-                'name' => 'Tidak Aktif',
-                'value' => User::where('role', 'penjual')->where('is_active', false)->count()
+                'name' => 'Tidak Aktif (Belum Upload Produk)',
+                'value' => $inactiveSellerCount
             ],
         ];
 
@@ -54,10 +58,10 @@ class DashboardController extends Controller
             ['name' => 'Rating Saja', 'value' => 203],
         ];
 
-        // Summary statistics
+        // Summary statistics (tidak menghitung seller yang ditolak)
         $stats = [
-            'total_sellers' => Seller::count(),
-            'active_sellers' => User::where('role', 'penjual')->where('is_active', true)->count(),
+            'total_sellers' => Seller::whereIn('status_verifikasi', ['approved', 'pending'])->count(),
+            'active_sellers' => $activeSellerCount,
             'pending_verification' => Seller::where('status_verifikasi', 'pending')->count(),
             'total_visitors' => User::where('role', 'pengunjung')->count(),
         ];
