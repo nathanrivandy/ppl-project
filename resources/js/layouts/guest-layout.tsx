@@ -41,7 +41,7 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
                 <div className="container mx-auto px-4 py-4">
                     <nav className="flex items-center justify-between">
                         <Link href="/" className="flex items-center space-x-2">
-                            <h1 className="text-2xl font-bold text-gray-900">🛍️ Marketplace</h1>
+                            <img src="/LogoAkade.png" alt="Akade Marketplace" className="h-12 w-auto" />
                         </Link>
 
                         <div className="flex items-center gap-4">

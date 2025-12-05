@@ -42,22 +42,17 @@ class DashboardController extends Controller
             ];
         })->toArray();
 
-        // Get all reviews for seller's products
+        // Get all reviews for seller's products (guest-only as per SRS-06)
         $allReviews = \App\Models\Review::whereIn('product_id', $products->pluck('id'))
-            ->with(['user.seller', 'guestProvince'])
+            ->with(['guestProvince'])
             ->get();
 
-        // Sebaran pemberi rating berdasarkan provinsi
+        // Sebaran pemberi rating berdasarkan provinsi (guest reviews only)
         $ratingsByProvince = $allReviews
             ->groupBy(function ($review) {
-                // Get province from:
-                // 1. Guest province (if guest review)
-                // 2. User's seller profile province (if user review and is seller)
-                // 3. "Tidak Diketahui" (if no province data)
+                // Get province from guest_province_id (all reviews are guest reviews per SRS-06)
                 if ($review->guest_province_id && $review->guestProvince) {
                     return $review->guestProvince->name;
-                } elseif ($review->user && $review->user->seller && $review->user->seller->propinsi) {
-                    return $review->user->seller->propinsi;
                 } else {
                     return 'Tidak Diketahui';
                 }

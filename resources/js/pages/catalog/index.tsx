@@ -1,5 +1,5 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import GuestLayout from '@/layouts/guest-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -59,15 +59,23 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
     const [sortBy, setSortBy] = useState(filters.sort || 'latest');
     const [showFilters, setShowFilters] = useState(false);
 
-    const handleSearch = () => {
-        router.get('/catalog', {
-            search,
-            category: selectedCategory,
-            min_price: minPrice,
-            max_price: maxPrice,
-            sort: sortBy,
-        });
-    };
+    // Auto-search with debounce (500ms delay)
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            router.get('/catalog', {
+                search,
+                category: selectedCategory,
+                min_price: minPrice,
+                max_price: maxPrice,
+                sort: sortBy,
+            }, {
+                preserveState: true,
+                preserveScroll: true,
+            });
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [search, selectedCategory, minPrice, maxPrice, sortBy]);
 
     const handleReset = () => {
         setSearch('');
@@ -75,7 +83,6 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
         setMinPrice('');
         setMaxPrice('');
         setSortBy('latest');
-        router.get('/catalog');
     };
 
     const StarRating = ({ rating }: { rating: number }) => {
@@ -122,7 +129,6 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                             placeholder="Cari produk..."
                                             value={search}
                                             onChange={(e) => setSearch(e.target.value)}
-                                            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                                             className="pl-10 bg-white text-gray-900"
                                         />
                                     </div>
@@ -132,9 +138,6 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                     >
                                         <Filter className="mr-2 h-4 w-4" />
                                         Filter
-                                    </Button>
-                                    <Button onClick={handleSearch} className="bg-blue-600 hover:bg-blue-700">
-                                        Cari
                                     </Button>
                                 </div>
 
@@ -207,12 +210,6 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
 
                                         {/* Action Buttons */}
                                         <div className="flex gap-2 md:col-span-4">
-                                            <Button
-                                                onClick={handleSearch}
-                                                className="bg-blue-600 hover:bg-blue-700"
-                                            >
-                                                Terapkan Filter
-                                            </Button>
                                             <Button onClick={handleReset} variant="outline">
                                                 Reset
                                             </Button>
