@@ -67,6 +67,22 @@ class Seller extends Model
     }
 
     /**
+     * Get the province
+     */
+    public function province()
+    {
+        return $this->belongsTo(\Laravolt\Indonesia\Models\Province::class, 'province_id');
+    }
+
+    /**
+     * Get the city
+     */
+    public function city()
+    {
+        return $this->belongsTo(\Laravolt\Indonesia\Models\City::class, 'city_id');
+    }
+
+    /**
      * Check if seller is approved
      */
     public function isApproved(): bool

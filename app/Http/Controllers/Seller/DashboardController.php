@@ -22,39 +22,62 @@ class DashboardController extends Controller
             return redirect()->route('seller.rejection');
         }
 
-        // Sebaran jumlah stok setiap produk (placeholder - akan diimplementasi saat fitur produk dibuat)
-        $productStock = [
-            ['name' => 'Produk A', 'value' => 150],
-            ['name' => 'Produk B', 'value' => 85],
-            ['name' => 'Produk C', 'value' => 220],
-            ['name' => 'Produk D', 'value' => 45],
-            ['name' => 'Produk E', 'value' => 120],
-        ];
+        // Get all products for this seller
+        $products = $seller->products()->with('reviews')->get();
 
-        // Sebaran nilai rating per produk (placeholder)
-        $productRatings = [
-            ['name' => 'Produk A', 'rating' => 4.5],
-            ['name' => 'Produk B', 'rating' => 4.8],
-            ['name' => 'Produk C', 'rating' => 3.9],
-            ['name' => 'Produk D', 'rating' => 4.2],
-            ['name' => 'Produk E', 'rating' => 4.7],
-        ];
+        // Sebaran jumlah stok setiap produk
+        $productStock = $products->map(function ($product) {
+            return [
+                'name' => $product->nama_produk,
+                'value' => $product->stok,
+            ];
+        })->toArray();
 
-        // Sebaran pemberi rating berdasarkan provinsi (placeholder)
-        $ratingsByProvince = [
-            ['name' => 'DKI Jakarta', 'value' => 45],
-            ['name' => 'Jawa Barat', 'value' => 32],
-            ['name' => 'Jawa Timur', 'value' => 28],
-            ['name' => 'Banten', 'value' => 15],
-            ['name' => 'Jawa Tengah', 'value' => 12],
-        ];
+        // Sebaran nilai rating per produk
+        $productRatings = $products->map(function ($product) {
+            $averageRating = $product->reviews->avg('rating') ?? 0;
+            return [
+                'name' => $product->nama_produk,
+                'rating' => round($averageRating, 1),
+            ];
+        })->toArray();
+
+        // Get all reviews for seller's products
+        $allReviews = \App\Models\Review::whereIn('product_id', $products->pluck('id'))
+            ->with(['user.seller', 'guestProvince'])
+            ->get();
+
+        // Sebaran pemberi rating berdasarkan provinsi
+        $ratingsByProvince = $allReviews
+            ->groupBy(function ($review) {
+                // Get province from:
+                // 1. Guest province (if guest review)
+                // 2. User's seller profile province (if user review and is seller)
+                // 3. "Tidak Diketahui" (if no province data)
+                if ($review->guest_province_id && $review->guestProvince) {
+                    return $review->guestProvince->name;
+                } elseif ($review->user && $review->user->seller && $review->user->seller->propinsi) {
+                    return $review->user->seller->propinsi;
+                } else {
+                    return 'Tidak Diketahui';
+                }
+            })
+            ->map(function ($group, $province) {
+                return [
+                    'name' => $province,
+                    'value' => $group->count(),
+                ];
+            })
+            ->sortByDesc('value')
+            ->values()
+            ->toArray();
 
         // Summary statistics
         $stats = [
-            'total_products' => 5, // placeholder
-            'total_stock' => 620, // placeholder
-            'average_rating' => 4.4, // placeholder
-            'total_reviews' => 132, // placeholder
+            'total_products' => $products->count(),
+            'total_stock' => $products->sum('stok'),
+            'average_rating' => round($allReviews->avg('rating') ?? 0, 1),
+            'total_reviews' => $allReviews->count(),
         ];
 
         return Inertia::render('seller/dashboard', [

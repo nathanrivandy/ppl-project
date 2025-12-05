@@ -129,7 +129,7 @@ export default function Welcome() {
                     </p>
                     
                     <div className="flex gap-4 justify-center">
-                        <Link href="/products">
+                        <Link href="/catalog">
                             <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
                                 Jelajahi Produk
                             </Button>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Platform;
 use App\Http\Controllers\Controller;
 use App\Models\Seller;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
@@ -13,14 +15,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Jumlah produk berdasarkan kategori (placeholder - akan diimplementasi saat fitur produk dibuat)
-        $productsByCategory = [
-            ['name' => 'Elektronik', 'value' => 45],
-            ['name' => 'Fashion', 'value' => 78],
-            ['name' => 'Makanan', 'value' => 32],
-            ['name' => 'Otomotif', 'value' => 23],
-            ['name' => 'Kesehatan', 'value' => 15],
-        ];
+        // Jumlah produk berdasarkan kategori (real data)
+        $productsByCategory = Product::join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('categories.nama as name', DB::raw('count(*) as value'))
+            ->groupBy('categories.id', 'categories.nama')
+            ->orderBy('value', 'desc')
+            ->get();
 
         // Sebaran toko berdasarkan provinsi (hanya seller approved)
         $sellersByProvince = Seller::where('status_verifikasi', 'approved')
@@ -37,9 +37,12 @@ class DashboardController extends Controller
             });
 
         // Jumlah user penjual aktif dan tidak aktif (berdasarkan produk yang diupload)
-        // Untuk sekarang menggunakan placeholder, nanti akan dihitung dari tabel products
-        $activeSellerCount = 0; // TODO: Count sellers with products
-        $inactiveSellerCount = Seller::where('status_verifikasi', 'approved')->count() - $activeSellerCount;
+        $activeSellerCount = Seller::where('status_verifikasi', 'approved')
+            ->whereHas('products')
+            ->count();
+        $inactiveSellerCount = Seller::where('status_verifikasi', 'approved')
+            ->whereDoesntHave('products')
+            ->count();
         
         $sellerStatus = [
             [
@@ -52,10 +55,15 @@ class DashboardController extends Controller
             ],
         ];
 
-        // Jumlah pengunjung yang memberikan komentar dan rating (placeholder)
+        // Jumlah pengunjung yang memberikan komentar dan rating (real data)
+        $withCommentCount = Review::whereNotNull('comment')->where('comment', '!=', '')->count();
+        $ratingOnlyCount = Review::where(function($query) {
+            $query->whereNull('comment')->orWhere('comment', '');
+        })->count();
+        
         $commentRatingStats = [
-            ['name' => 'Dengan Komentar', 'value' => 145],
-            ['name' => 'Rating Saja', 'value' => 203],
+            ['name' => 'Dengan Komentar', 'value' => $withCommentCount],
+            ['name' => 'Rating Saja', 'value' => $ratingOnlyCount],
         ];
 
         // Summary statistics (tidak menghitung seller yang ditolak)

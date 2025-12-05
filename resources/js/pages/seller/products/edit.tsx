@@ -45,7 +45,9 @@ export default function EditProduct({ product, categories }: EditProductProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(`/seller/products/${product.id}`);
+        post(`/seller/products/${product.id}`, {
+            forceFormData: true,
+        });
     };
 
     return (
@@ -63,16 +65,16 @@ export default function EditProduct({ product, categories }: EditProductProps) {
                         </Link>
                     </div>
 
-                    <Card>
+                    <Card className="bg-white">
                         <CardHeader>
-                            <CardTitle className="text-2xl">Edit Produk</CardTitle>
+                            <CardTitle className="text-2xl text-gray-900">Edit Produk</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid gap-4">
                                     {/* Nama Produk */}
                                     <div className="grid gap-2">
-                                        <Label htmlFor="nama_produk">
+                                        <Label htmlFor="nama_produk" className="text-gray-900">
                                             Nama Produk <span className="text-red-500">*</span>
                                         </Label>
                                         <Input
@@ -82,13 +84,14 @@ export default function EditProduct({ product, categories }: EditProductProps) {
                                             onChange={(e) => setData('nama_produk', e.target.value)}
                                             required
                                             placeholder="Masukkan nama produk"
+                                            className="bg-white text-gray-900"
                                         />
                                         <InputError message={errors.nama_produk} />
                                     </div>
 
                                     {/* Kategori */}
                                     <div className="grid gap-2">
-                                        <Label htmlFor="category_id">
+                                        <Label htmlFor="category_id" className="text-gray-900">
                                             Kategori <span className="text-red-500">*</span>
                                         </Label>
                                         <select
@@ -96,7 +99,7 @@ export default function EditProduct({ product, categories }: EditProductProps) {
                                             value={data.category_id}
                                             onChange={(e) => setData('category_id', e.target.value)}
                                             required
-                                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                            className="flex h-10 w-full rounded-md border border-input bg-white text-gray-900 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                         >
                                             <option value="">Pilih Kategori</option>
                                             {categories.map((category) => (
@@ -110,7 +113,7 @@ export default function EditProduct({ product, categories }: EditProductProps) {
 
                                     {/* Deskripsi */}
                                     <div className="grid gap-2">
-                                        <Label htmlFor="deskripsi">
+                                        <Label htmlFor="deskripsi" className="text-gray-900">
                                             Deskripsi <span className="text-red-500">*</span>
                                         </Label>
                                         <Textarea
@@ -122,6 +125,7 @@ export default function EditProduct({ product, categories }: EditProductProps) {
                                             required
                                             rows={4}
                                             placeholder="Deskripsikan produk Anda"
+                                            className="bg-white text-gray-900"
                                         />
                                         <InputError message={errors.deskripsi} />
                                     </div>
@@ -129,7 +133,7 @@ export default function EditProduct({ product, categories }: EditProductProps) {
                                     {/* Harga dan Stok */}
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="grid gap-2">
-                                            <Label htmlFor="harga">
+                                            <Label htmlFor="harga" className="text-gray-900">
                                                 Harga (Rp) <span className="text-red-500">*</span>
                                             </Label>
                                             <Input
@@ -141,12 +145,13 @@ export default function EditProduct({ product, categories }: EditProductProps) {
                                                 min="0"
                                                 step="0.01"
                                                 placeholder="0"
+                                                className="bg-white text-gray-900"
                                             />
                                             <InputError message={errors.harga} />
                                         </div>
 
                                         <div className="grid gap-2">
-                                            <Label htmlFor="stok">
+                                            <Label htmlFor="stok" className="text-gray-900">
                                                 Stok <span className="text-red-500">*</span>
                                             </Label>
                                             <Input
@@ -157,6 +162,7 @@ export default function EditProduct({ product, categories }: EditProductProps) {
                                                 required
                                                 min="0"
                                                 placeholder="0"
+                                                className="bg-white text-gray-900"
                                             />
                                             <InputError message={errors.stok} />
                                         </div>
@@ -171,14 +177,14 @@ export default function EditProduct({ product, categories }: EditProductProps) {
                                             onChange={(e) => setData('is_active', e.target.checked)}
                                             className="h-4 w-4 rounded border-gray-300"
                                         />
-                                        <Label htmlFor="is_active" className="cursor-pointer">
+                                        <Label htmlFor="is_active" className="cursor-pointer text-gray-900">
                                             Produk Aktif
                                         </Label>
                                     </div>
 
                                     {/* Foto Produk */}
                                     <div className="grid gap-2">
-                                        <Label htmlFor="foto_produk">Foto Produk</Label>
+                                        <Label htmlFor="foto_produk" className="text-gray-900">Foto Produk</Label>
                                         {product.foto_produk && !data.foto_produk && (
                                             <div className="mb-2">
                                                 <img
@@ -192,7 +198,7 @@ export default function EditProduct({ product, categories }: EditProductProps) {
                                         <div className="flex items-center justify-center w-full">
                                             <label
                                                 htmlFor="foto_produk"
-                                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50"
                                             >
                                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                                     <svg

@@ -41,7 +41,7 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                     <div className="mb-6 flex items-center justify-between">
                         <h1 className="text-3xl font-bold text-gray-900">Daftar Produk</h1>
                         <Link href="/seller/products/create">
-                            <Button className="bg-blue-600 hover:bg-blue-700">
+                            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                                 <Plus className="mr-2 h-4 w-4" />
                                 Tambah Produk
                             </Button>
@@ -49,7 +49,7 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                     </div>
 
                     {products.length === 0 ? (
-                        <Card>
+                        <Card className="bg-white">
                             <CardContent className="flex flex-col items-center justify-center py-12">
                                 <div className="text-center">
                                     <svg
@@ -74,7 +74,7 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                                     </p>
                                     <div className="mt-6">
                                         <Link href="/seller/products/create">
-                                            <Button className="bg-blue-600 hover:bg-blue-700">
+                                            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                                                 <Plus className="mr-2 h-4 w-4" />
                                                 Tambah Produk
                                             </Button>
@@ -86,11 +86,11 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                     ) : (
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                             {products.map((product) => (
-                                <Card key={product.id} className="overflow-hidden">
+                                <Card key={product.id} className="overflow-hidden bg-white">
                                     <div className="aspect-square overflow-hidden bg-gray-100">
                                         {product.foto_produk ? (
                                             <img
-                                                src={`/storage/${product.foto_produk}`}
+                                                src={product.foto_produk}
                                                 alt={product.nama_produk}
                                                 className="h-full w-full object-cover"
                                             />
@@ -115,7 +115,7 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                                     <CardHeader className="pb-3">
                                         <div className="flex items-start justify-between">
                                             <div className="flex-1">
-                                                <CardTitle className="text-lg line-clamp-1">
+                                                <CardTitle className="text-lg line-clamp-1 text-gray-900">
                                                     {product.nama_produk}
                                                 </CardTitle>
                                                 <p className="text-sm text-gray-500 mt-1">

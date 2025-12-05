@@ -32,9 +32,9 @@ class EnsurePenjualRole
             return redirect()->route('seller.rejection');
         }
 
-        // If seller is pending or not active, show waiting message (except on rejection page)
-        if (!$user->is_active && !$request->routeIs('seller.rejection')) {
-            abort(403, 'Akun Anda belum diaktifkan. Silakan tunggu proses verifikasi.');
+        // If seller is pending or not active, redirect to pending verification page
+        if (!$user->is_active && !$request->routeIs('seller.rejection') && !$request->routeIs('seller.pending-verification')) {
+            return redirect()->route('seller.pending-verification');
         }
 
         return $next($request);

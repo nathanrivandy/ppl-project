@@ -118,46 +118,73 @@ export default function SellerDashboard({
                         {/* Stok Produk */}
                         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Stok Setiap Produk</h3>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={productStock}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Bar dataKey="value" name="Stok" fill="#3b82f6" />
-                                </BarChart>
-                            </ResponsiveContainer>
+                            {productStock.length > 0 ? (
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart data={productStock}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="value" name="Stok" fill="#3b82f6" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                <div className="flex items-center justify-center h-[300px] text-gray-500">
+                                    <div className="text-center">
+                                        <p>Belum ada produk</p>
+                                        <p className="text-sm mt-2">Tambahkan produk untuk melihat data stok</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Rating per Produk */}
                         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Rating per Produk</h3>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <RadarChart data={productRatings}>
-                                    <PolarGrid />
-                                    <PolarAngleAxis dataKey="name" />
-                                    <PolarRadiusAxis angle={90} domain={[0, 5]} />
-                                    <Radar name="Rating" dataKey="rating" stroke="#10b981" fill="#10b981" fillOpacity={0.6} />
-                                    <Tooltip />
-                                    <Legend />
-                                </RadarChart>
-                            </ResponsiveContainer>
+                            {productRatings.length > 0 ? (
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <RadarChart data={productRatings}>
+                                        <PolarGrid />
+                                        <PolarAngleAxis dataKey="name" />
+                                        <PolarRadiusAxis angle={90} domain={[0, 5]} />
+                                        <Radar name="Rating" dataKey="rating" stroke="#10b981" fill="#10b981" fillOpacity={0.6} />
+                                        <Tooltip />
+                                        <Legend />
+                                    </RadarChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                <div className="flex items-center justify-center h-[300px] text-gray-500">
+                                    <div className="text-center">
+                                        <p>Belum ada rating</p>
+                                        <p className="text-sm mt-2">Rating akan muncul setelah produk Anda mendapat ulasan</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Pemberi Rating Berdasarkan Provinsi */}
                         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:col-span-2">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Pemberi Rating Berdasarkan Provinsi</h3>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={ratingsByProvince}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Bar dataKey="value" name="Jumlah Rating" fill="#f59e0b" />
-                                </BarChart>
-                            </ResponsiveContainer>
+                            {ratingsByProvince.length > 0 ? (
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart data={ratingsByProvince}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="value" name="Jumlah Rating" fill="#f59e0b" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                <div className="flex items-center justify-center h-[300px] text-gray-500">
+                                    <div className="text-center">
+                                        <p>Belum ada data pemberi rating</p>
+                                        <p className="text-sm mt-2">Data akan muncul setelah pengguna terdaftar memberikan rating</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

@@ -31,7 +31,9 @@ export default function CreateProduct({ categories }: CreateProductProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post('/seller/products');
+        post('/seller/products', {
+            forceFormData: true,
+        });
     };
 
     return (
@@ -49,16 +51,16 @@ export default function CreateProduct({ categories }: CreateProductProps) {
                         </Link>
                     </div>
 
-                    <Card>
+                    <Card className="bg-white">
                         <CardHeader>
-                            <CardTitle className="text-2xl">Tambah Produk Baru</CardTitle>
+                            <CardTitle className="text-2xl text-gray-900">Tambah Produk Baru</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid gap-4">
                                     {/* Nama Produk */}
                                     <div className="grid gap-2">
-                                        <Label htmlFor="nama_produk">
+                                        <Label htmlFor="nama_produk" className="text-gray-900 font-medium">
                                             Nama Produk <span className="text-red-500">*</span>
                                         </Label>
                                         <Input
@@ -68,13 +70,14 @@ export default function CreateProduct({ categories }: CreateProductProps) {
                                             onChange={(e) => setData('nama_produk', e.target.value)}
                                             required
                                             placeholder="Masukkan nama produk"
+                                            className="bg-white text-gray-900"
                                         />
                                         <InputError message={errors.nama_produk} />
                                     </div>
 
                                     {/* Kategori */}
                                     <div className="grid gap-2">
-                                        <Label htmlFor="category_id">
+                                        <Label htmlFor="category_id" className="text-gray-900 font-medium">
                                             Kategori <span className="text-red-500">*</span>
                                         </Label>
                                         <select
@@ -82,7 +85,7 @@ export default function CreateProduct({ categories }: CreateProductProps) {
                                             value={data.category_id}
                                             onChange={(e) => setData('category_id', e.target.value)}
                                             required
-                                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                            className="flex h-10 w-full rounded-md border border-input bg-white text-gray-900 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                         >
                                             <option value="">Pilih Kategori</option>
                                             {categories.map((category) => (
@@ -96,7 +99,7 @@ export default function CreateProduct({ categories }: CreateProductProps) {
 
                                     {/* Deskripsi */}
                                     <div className="grid gap-2">
-                                        <Label htmlFor="deskripsi">
+                                        <Label htmlFor="deskripsi" className="text-gray-900 font-medium">
                                             Deskripsi <span className="text-red-500">*</span>
                                         </Label>
                                         <Textarea
@@ -108,6 +111,7 @@ export default function CreateProduct({ categories }: CreateProductProps) {
                                             required
                                             rows={4}
                                             placeholder="Deskripsikan produk Anda"
+                                            className="bg-white text-gray-900"
                                         />
                                         <InputError message={errors.deskripsi} />
                                     </div>
@@ -115,7 +119,7 @@ export default function CreateProduct({ categories }: CreateProductProps) {
                                     {/* Harga dan Stok */}
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="grid gap-2">
-                                            <Label htmlFor="harga">
+                                            <Label htmlFor="harga" className="text-gray-900 font-medium">
                                                 Harga (Rp) <span className="text-red-500">*</span>
                                             </Label>
                                             <Input
@@ -127,12 +131,13 @@ export default function CreateProduct({ categories }: CreateProductProps) {
                                                 min="0"
                                                 step="0.01"
                                                 placeholder="0"
+                                                className="bg-white text-gray-900"
                                             />
                                             <InputError message={errors.harga} />
                                         </div>
 
                                         <div className="grid gap-2">
-                                            <Label htmlFor="stok">
+                                            <Label htmlFor="stok" className="text-gray-900 font-medium">
                                                 Stok <span className="text-red-500">*</span>
                                             </Label>
                                             <Input
@@ -143,6 +148,7 @@ export default function CreateProduct({ categories }: CreateProductProps) {
                                                 required
                                                 min="0"
                                                 placeholder="0"
+                                                className="bg-white text-gray-900"
                                             />
                                             <InputError message={errors.stok} />
                                         </div>
@@ -150,7 +156,7 @@ export default function CreateProduct({ categories }: CreateProductProps) {
 
                                     {/* Foto Produk */}
                                     <div className="grid gap-2">
-                                        <Label htmlFor="foto_produk">Foto Produk</Label>
+                                        <Label htmlFor="foto_produk" className="text-gray-900 font-medium">Foto Produk</Label>
                                         <div className="flex items-center justify-center w-full">
                                             <label
                                                 htmlFor="foto_produk"

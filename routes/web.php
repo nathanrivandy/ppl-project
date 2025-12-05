@@ -12,8 +12,33 @@ use App\Http\Controllers\Seller\DashboardController as SellerDashboardController
 use App\Http\Controllers\Seller\RejectionController;
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
+    // If user is authenticated and is a seller who is not active, redirect to pending verification
+    if (Auth::check()) {
+        $user = Auth::user();
+        if ($user->isPenjual()) {
+            $seller = $user->seller;
+            
+            // Check if rejected
+            if ($seller && $seller->status_verifikasi === 'rejected') {
+                return redirect()->route('seller.rejection');
+            }
+            
+            // Check if pending (not active)
+            if (!$user->is_active) {
+                return redirect()->route('seller.pending-verification');
+            }
+            
+            // If active, redirect to dashboard
+            return redirect()->route('seller.dashboard');
+        } elseif ($user->isPlatform()) {
+            return redirect()->route('platform.dashboard');
+        }
+    }
+    
     return Inertia::render('welcome');
 })->name('home');
 
@@ -30,6 +55,14 @@ Route::get('/register-seller', [SellerRegistrationController::class, 'create'])
     ->name('register.seller');
 Route::post('/register-seller', [SellerRegistrationController::class, 'store']);
 
+// Catalog Routes (public)
+Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
+Route::get('/catalog/{id}', [CatalogController::class, 'show'])->name('catalog.show');
+
+// Review Routes (public - no auth required for creating)
+Route::post('products/{productId}/reviews', [ReviewController::class, 'store'])
+    ->name('reviews.store');
+
 // Authenticated Routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
@@ -44,11 +77,37 @@ Route::middleware(['auth', 'verified'])->group(function () {
             if ($seller && $seller->status_verifikasi === 'rejected') {
                 return redirect()->route('seller.rejection');
             }
+            // Check if seller is not active (pending verification)
+            if (!$user->is_active) {
+                return redirect()->route('seller.pending-verification');
+            }
             return redirect()->route('seller.dashboard');
         }
         
         return Inertia::render('dashboard');
     })->name('dashboard');
+    
+    // Pending verification page for sellers
+    Route::get('seller/pending-verification', function () {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        
+        if (!$user->isPenjual()) {
+            return redirect()->route('dashboard');
+        }
+        
+        $seller = $user->seller;
+        
+        return Inertia::render('seller/pending-verification', [
+            'seller' => $seller,
+        ]);
+    })->name('seller.pending-verification');
+
+    // Review Update/Delete Routes (authenticated users only)
+    Route::put('reviews/{id}', [ReviewController::class, 'update'])
+        ->name('reviews.update');
+    Route::delete('reviews/{id}', [ReviewController::class, 'destroy'])
+        ->name('reviews.destroy');
 });
 
 // Platform Admin Routes
