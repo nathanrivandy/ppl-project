@@ -1,153 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <title>Laporan Status Penjual</title>
+    <meta charset="UTF-8">
+    <title>Laporan Daftar Akun Penjual Berdasarkan Status</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: DejaVu Sans, sans-serif;
             font-size: 12px;
-            color: #333;
+            color: #111827;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 24px;
         }
+
+        .report-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 18px 20px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .srs {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 2px;
+        }
+
         h1 {
-            text-align: center;
-            color: #1e40af;
-            margin-bottom: 5px;
+            font-size: 18px;
+            margin: 0;
+            color: #111827;
         }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 20px;
-        }
+
         .meta {
-            text-align: right;
-            font-size: 10px;
-            color: #666;
-            margin-bottom: 20px;
+            font-size: 11px;
+            color: #4b5563;
+            margin-top: 6px;
+            margin-bottom: 14px;
         }
+
+        .meta span {
+            display: inline-block;
+            margin-right: 12px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
+            margin-top: 6px;
+            border-radius: 6px;
+            overflow: hidden;
         }
-        th {
-            background-color: #3b82f6;
-            color: white;
-            padding: 10px;
+
+        thead {
+            background: #1d4ed8;
+            color: #ffffff;
+        }
+
+        th, td {
+            padding: 6px 8px;
+            border: 1px solid #e5e7eb;
             text-align: left;
-            font-weight: bold;
         }
-        td {
-            padding: 8px;
-            border-bottom: 1px solid #e5e7eb;
+
+        th {
+            font-size: 12px;
+            font-weight: 600;
         }
-        tr:hover {
-            background-color: #f9fafb;
-        }
-        .section-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #1e40af;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #3b82f6;
-        }
-        .status-active {
-            color: #10b981;
-            font-weight: bold;
-        }
-        .status-inactive {
-            color: #ef4444;
-            font-weight: bold;
-        }
-        .summary {
+
+        tbody tr:nth-child(even) {
             background-color: #f3f4f6;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
         }
-        .summary-item {
+
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        .status-badge {
             display: inline-block;
-            margin-right: 30px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .status-inactive {
+            background-color: #fee2e2;
+            color: #b91c1c;
         }
     </style>
 </head>
 <body>
-    <h1>LAPORAN STATUS PENJUAL</h1>
-    <p class="subtitle">Marketplace Platform</p>
-    <p class="meta">Dicetak: {{ $generatedAt }}</p>
+    <div class="report-card">
+        <h1>Laporan Daftar Akun Penjual Berdasarkan Status</h1>
+        <div class="meta">
+            <span>
+                Tanggal dibuat:
+                {{ $generatedAt ?? now()->format('d-m-Y H:i') }}
+            </span>
+            <span>
+                Oleh:
+                {{ $processedBy ?? (auth()->user()->name ?? 'Platform Admin') }}
+            </span>
+        </div>
 
-    <div class="summary">
-        <div class="summary-item">
-            <strong>Total Penjual Aktif:</strong> {{ $activeSellers->count() }}
-        </div>
-        <div class="summary-item">
-            <strong>Total Penjual Tidak Aktif:</strong> {{ $inactiveSellers->count() }}
-        </div>
-        <div class="summary-item">
-            <strong>Total Keseluruhan:</strong> {{ $activeSellers->count() + $inactiveSellers->count() }}
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 40px;">No</th>
+                    <th>Nama User</th>
+                    <th>Nama PIC</th>
+                    <th>Nama Toko</th>
+                    <th style="width: 90px;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php $no = 1; @endphp
+
+                {{-- Penjual Aktif dulu --}}
+                @foreach ($activeSellers as $user)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ optional($user->seller)->nama_pic ?? '-' }}</td>
+                        <td>{{ optional($user->seller)->nama_toko ?? '-' }}</td>
+                        <td>
+                            <span class="status-badge status-active">
+                                Aktif
+                            </span>
+                        </td>
+                    </tr>
+                @endforeach
+
+                {{-- Lalu Penjual Tidak Aktif --}}
+                @foreach ($inactiveSellers as $user)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ optional($user->seller)->nama_pic ?? '-' }}</td>
+                        <td>{{ optional($user->seller)->nama_toko ?? '-' }}</td>
+                        <td>
+                            <span class="status-badge status-inactive">
+                                Tidak Aktif
+                            </span>
+                        </td>
+                    </tr>
+                @endforeach
+
+                @if ($no === 1)
+                    <tr>
+                        <td colspan="5">Tidak ada data penjual.</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
     </div>
-
-    <h2 class="section-title">PENJUAL AKTIF</h2>
-    <table>
-        <thead>
-            <tr>
-                <th width="5%">No</th>
-                <th width="25%">Nama Toko</th>
-                <th width="20%">Email</th>
-                <th width="20%">Nama PIC</th>
-                <th width="15%">No. HP</th>
-                <th width="15%">Provinsi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($activeSellers as $index => $user)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $user->seller->nama_toko ?? '-' }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->seller->nama_pic ?? '-' }}</td>
-                    <td>{{ $user->seller->no_handphone_pic ?? '-' }}</td>
-                    <td>{{ $user->seller->propinsi ?? '-' }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="6" style="text-align: center; color: #999;">Tidak ada data penjual aktif</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-
-    <h2 class="section-title">PENJUAL TIDAK AKTIF</h2>
-    <table>
-        <thead>
-            <tr>
-                <th width="5%">No</th>
-                <th width="25%">Nama Toko</th>
-                <th width="20%">Email</th>
-                <th width="20%">Nama PIC</th>
-                <th width="15%">No. HP</th>
-                <th width="15%">Provinsi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($inactiveSellers as $index => $user)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $user->seller->nama_toko ?? '-' }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->seller->nama_pic ?? '-' }}</td>
-                    <td>{{ $user->seller->no_handphone_pic ?? '-' }}</td>
-                    <td>{{ $user->seller->propinsi ?? '-' }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="6" style="text-align: center; color: #999;">Tidak ada data penjual tidak aktif</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
 </body>
 </html>

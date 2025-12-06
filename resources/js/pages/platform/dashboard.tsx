@@ -52,30 +52,42 @@ export default function PlatformDashboard({
                                 <p className="mt-2 text-gray-600">Selamat datang di dashboard administrasi platform</p>
                             </div>
                             <div className="flex gap-2">
-                                <Link href="/platform/reports/seller-status">
+                                <a
+                                    href="/platform/reports/seller-status"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                                         <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                         Laporan Status Penjual
                                     </Button>
-                                </Link>
-                                <Link href="/platform/reports/seller-by-province">
+                                </a>
+                                <a
+                                    href="/platform/reports/seller-by-province"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <Button className="bg-green-600 hover:bg-green-700 text-white">
                                         <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                         Laporan Per Provinsi
                                     </Button>
-                                </Link>
-                                <Link href="/platform/reports/product-rating">
+                                </a>
+                                <a
+                                    href="/platform/reports/product-rating"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <Button className="bg-yellow-600 hover:bg-yellow-700 text-white">
                                         <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                         Laporan Rating Produk
                                     </Button>
-                                </Link>
+                                </a>
                             </div>
                         </div>
                     </div>

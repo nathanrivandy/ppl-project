@@ -1,105 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <title>Laporan Penjual Per Provinsi</title>
+    <meta charset="UTF-8">
+    <title>Laporan Daftar Toko Berdasarkan Lokasi Propinsi</title>
     <style>
+        * { box-sizing: border-box; }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: DejaVu Sans, sans-serif;
             font-size: 12px;
-            color: #333;
+            color: #111827;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 24px;
         }
+
+        .report-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 18px 20px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .srs {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 2px;
+        }
+
         h1 {
-            text-align: center;
-            color: #1e40af;
-            margin-bottom: 5px;
+            font-size: 18px;
+            margin: 0;
+            color: #111827;
         }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 20px;
-        }
+
         .meta {
-            text-align: right;
-            font-size: 10px;
-            color: #666;
-            margin-bottom: 20px;
+            font-size: 11px;
+            color: #4b5563;
+            margin-top: 6px;
+            margin-bottom: 14px;
         }
+
+        .meta span {
+            display: inline-block;
+            margin-right: 12px;
+        }
+
+        .summary {
+            font-size: 11px;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
+            margin-top: 6px;
+            border-radius: 6px;
+            overflow: hidden;
         }
-        th {
-            background-color: #10b981;
-            color: white;
-            padding: 10px;
+
+        thead {
+            background: #0f766e; /* teal */
+            color: #ffffff;
+        }
+
+        th, td {
+            padding: 6px 8px;
+            border: 1px solid #e5e7eb;
             text-align: left;
-            font-weight: bold;
         }
-        td {
-            padding: 8px;
-            border-bottom: 1px solid #e5e7eb;
+
+        th {
+            font-size: 12px;
+            font-weight: 600;
         }
-        .province-header {
+
+        tbody tr:nth-child(even) {
             background-color: #f3f4f6;
-            font-weight: bold;
-            color: #1e40af;
-            padding: 10px;
-            margin-top: 20px;
-            border-left: 4px solid #10b981;
         }
-        .summary {
-            background-color: #f3f4f6;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            text-align: center;
+
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        .province-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
-    <h1>LAPORAN PENJUAL PER PROVINSI</h1>
-    <p class="subtitle">Marketplace Platform</p>
-    <p class="meta">Dicetak: {{ $generatedAt }}</p>
-
-    <div class="summary">
-        <strong>Total Toko Terdaftar:</strong> {{ $totalSellers }} toko di {{ $sellersByProvince->count() }} provinsi
-    </div>
-
-    @foreach($sellersByProvince as $province => $sellers)
-        <div class="province-header">
-            {{ strtoupper($province) }} ({{ $sellers->count() }} Toko)
+    <div class="report-card">
+        <h1>Laporan Daftar Toko Berdasarkan Lokasi Propinsi</h1>
+        <div class="meta">
+            <span>
+                Tanggal dibuat:
+                {{ $generatedAt ?? now()->format('d-m-Y H:i') }}
+            </span>
+            <span>
+                Oleh:
+                {{ $processedBy ?? (auth()->user()->name ?? 'Platform Admin') }}
+            </span>
         </div>
-        
+
         <table>
             <thead>
                 <tr>
-                    <th width="5%">No</th>
-                    <th width="25%">Nama Toko</th>
-                    <th width="20%">Nama PIC</th>
-                    <th width="20%">Email</th>
-                    <th width="15%">No. HP</th>
-                    <th width="15%">Kota</th>
+                    <th style="width: 40px;">No</th>
+                    <th>Nama Toko</th>
+                    <th>Nama PIC</th>
+                    <th>Propinsi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($sellers as $index => $seller)
+                @php $no = 1; @endphp
+
+                @forelse ($sellersByProvince as $province => $sellers)
+                    @foreach ($sellers as $seller)
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $seller->nama_toko }}</td>
+                            <td>{{ $seller->nama_pic }}</td>
+                            <td>
+                                <span class="province-pill">
+                                    {{ $province }}
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach
+                @empty
                     <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $seller->nama_toko }}</td>
-                        <td>{{ $seller->nama_pic }}</td>
-                        <td>{{ $seller->email_pic }}</td>
-                        <td>{{ $seller->no_handphone_pic }}</td>
-                        <td>{{ $seller->kabupaten_kota }}</td>
+                        <td colspan="4">Tidak ada data toko terverifikasi.</td>
                     </tr>
-                @endforeach
+                @endforelse
             </tbody>
         </table>
-    @endforeach
-
-    @if($sellersByProvince->isEmpty())
-        <p style="text-align: center; color: #999; padding: 40px;">Tidak ada data penjual yang terverifikasi</p>
-    @endif
+    </div>
 </body>
 </html>
