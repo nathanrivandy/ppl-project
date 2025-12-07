@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravolt\Indonesia\Models\Province;
 
 class Review extends Model
 {
@@ -41,4 +42,5 @@ class Review extends Model
     {
         return $this->guest_name;
     }
+
 }

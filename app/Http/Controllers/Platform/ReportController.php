@@ -64,19 +64,19 @@ class ReportController extends Controller
     {
         $productsDB = Product::query()
             ->with([
-                'category',   // relasi kategori
-                'seller',     // relasi seller/toko
-                'reviews',    // relasi review, buat ambil provinsi pemberi rating
+                'category',
+                'seller',
+                'reviews.guestProvince', // penting: biar provinsi bisa diakses tanpa N+1
             ])
-            ->withAvg('reviews as avg_rating', 'rating') // rata-rata rating
+            ->withAvg('reviews as avg_rating', 'rating')
             ->orderByDesc('avg_rating')
             ->get()
             ->map(function ($p) {
-                // === Nama produk & harga (pakai field yang bener di DB lu) ===
+                // Nama produk & harga pakai field yang ada di DB kamu
                 $productName = $p->nama_produk ?? $p->name ?? '-';
                 $price       = $p->harga ?? $p->price ?? 0;
 
-                // === Nama kategori ===
+                // Nama kategori
                 $categoryName = null;
                 if ($p->category) {
                     $categoryName =
@@ -86,27 +86,30 @@ class ReportController extends Controller
                         ?? null;
                 }
 
-                // === PROVINSI PEMBERI RATING (DIAMBIL DARI REVIEW) ===
-                $firstReview = $p->reviews->first(); // ambil 1 review pertama saja
+                // ================================
+                //  PROVINSI DOMINAN PEMBERI RATING
+                // ================================
+                $dominantProvinceName = '-';
 
-                $rawProvince =
-                    ($firstReview->province ?? null)
-                    ?? ($firstReview->province_name ?? null)
-                    ?? ($firstReview->provinsi ?? null);
+                if ($p->reviews->isNotEmpty()) {
+                    // Group review by guest_province_id dan hitung jumlahnya
+                    $grouped = $p->reviews
+                        ->filter(fn ($r) => !is_null($r->guest_province_id))
+                        ->groupBy('guest_province_id')
+                        ->map->count(); // [province_id => total_review]
 
-                $provinceName = null;
+                    if ($grouped->isNotEmpty()) {
+                        // Ambil province_id dengan jumlah review terbanyak
+                        $dominantProvinceId = $grouped->sortDesc()->keys()->first();
 
-                if (is_array($rawProvince)) {
-                    $provinceName = $rawProvince['name'] ?? reset($rawProvince);
-                } elseif (is_object($rawProvince)) {
-                    $provinceName = $rawProvince->name ?? null;
-                } elseif (is_string($rawProvince)) {
-                    $trim = trim($rawProvince);
-                    if (strlen($trim) && $trim[0] === '{') {
-                        $decoded = json_decode($rawProvince, true);
-                        $provinceName = $decoded['name'] ?? null;
-                    } else {
-                        $provinceName = $rawProvince;
+                        // Cari salah satu review dengan province_id tersebut
+                        $exampleReview = $p->reviews
+                            ->firstWhere('guest_province_id', $dominantProvinceId);
+
+                        // Ambil nama provinsi dari relasi Laravolt
+                        $dominantProvinceName = optional(
+                            optional($exampleReview)->guestProvince
+                        )->name ?? '-';
                     }
                 }
 
@@ -116,8 +119,7 @@ class ReportController extends Controller
                     'price'      => $price,
                     'rating'     => round($p->avg_rating ?? 0, 2),
                     'store_name' => $p->seller->nama_toko ?? '-',
-                    // SEKARANG: provinsi = provinsi PEMBERI rating (dari review)
-                    'province'   => $provinceName ?? '-',
+                    'province'   => $dominantProvinceName,
                 ];
             });
 
