@@ -41,9 +41,9 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
                     <nav className="flex items-center justify-between">
                         <Link href="/" className="flex items-center space-x-2">
                             <img
-                                src="/LogoAkade.png"
+                                src="/LogoAKD.png"
                                 alt="Akade Marketplace"
-                                className="h-16 w-auto"
+                                className="h-10 w-auto"
                             />
                         </Link>
 
