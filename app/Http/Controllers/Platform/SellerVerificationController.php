@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Platform;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SellerApproved;
+use App\Mail\SellerRejected;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -55,11 +57,11 @@ class SellerVerificationController extends Controller
             'is_active' => true
         ]);
 
-        // TODO: Send approval email notification
-        // Mail::to($seller->email_pic)->send(new SellerApprovedMail($seller));
+        // Send approval email notification
+        Mail::to($seller->user->email)->send(new SellerApproved($seller->user, $seller));
 
         return redirect()->route('platform.sellers.verification')
-            ->with('success', 'Penjual berhasil disetujui dan akun telah diaktifkan.');
+            ->with('success', 'Penjual berhasil disetujui dan email aktivasi telah dikirim.');
     }
 
     /**
@@ -78,10 +80,10 @@ class SellerVerificationController extends Controller
             'verified_by' => Auth::id(),
         ]);
 
-        // TODO: Send rejection email notification
-        // Mail::to($seller->email_pic)->send(new SellerRejectedMail($seller));
+        // Send rejection email notification
+        Mail::to($seller->user->email)->send(new SellerRejected($seller->user, $seller));
 
         return redirect()->route('platform.sellers.verification')
-            ->with('success', 'Registrasi penjual ditolak.');
+            ->with('success', 'Registrasi penjual ditolak dan email notifikasi telah dikirim.');
     }
 }

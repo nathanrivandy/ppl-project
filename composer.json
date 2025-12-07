@@ -16,7 +16,8 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "laravel/wayfinder": "^0.1.9",
-        "laravolt/indonesia": "^0.38.0"
+        "laravolt/indonesia": "^0.38.0",
+        "resend/resend-laravel": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
