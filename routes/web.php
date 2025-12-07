@@ -14,6 +14,7 @@ use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Seller\SellerReportController;
 
 Route::get('/', function () {
     // If user is authenticated and is a seller who is not active, redirect to pending verification
@@ -138,6 +139,16 @@ Route::middleware(['auth', 'verified', 'penjual'])->prefix('seller')->name('sell
         ->name('dashboard');
     Route::get('rejection', [RejectionController::class, 'show'])
         ->name('rejection');
+    
+    // Reports penjual (SRS 12 13 14)
+    Route::get('reports/stock-desc', [SellerReportController::class, 'stockDesc'])
+        ->name('reports.stock-desc');     // SRS MartPlace 12
+
+    Route::get('reports/rating-desc', [SellerReportController::class, 'ratingDesc'])
+        ->name('reports.rating-desc');    // SRS MartPlace 13
+
+    Route::get('reports/low-stock', [SellerReportController::class, 'lowStock'])
+        ->name('reports.low-stock');      // SRS MartPlace 14
     
     // Product Management
     Route::resource('products', ProductController::class);

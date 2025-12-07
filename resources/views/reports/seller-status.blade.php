@@ -58,7 +58,7 @@
         }
 
         thead {
-            background: #1d4ed8;
+            background: #2563eb; /* blue-600 */
             color: #ffffff;
         }
 
@@ -106,7 +106,7 @@
         <div class="meta">
             <span>
                 Tanggal dibuat:
-                {{ $generatedAt ?? now()->format('d-m-Y H:i') }}
+                {{ ($generatedAt ?? now()->format('d-m-Y')) }}
             </span>
             <span>
                 Oleh:

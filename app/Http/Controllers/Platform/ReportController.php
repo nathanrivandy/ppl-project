@@ -30,7 +30,7 @@ class ReportController extends Controller
         $pdf = Pdf::loadView('reports.seller-status', [
             'activeSellers' => $activeSellers,
             'inactiveSellers' => $inactiveSellers,
-            'generatedAt' => now()->format('d/m/Y H:i:s'),
+            'generatedAt' => now()->format('d-m-Y'),
         ]);
 
         return $pdf->download('laporan-status-penjual-' . now()->format('Y-m-d') . '.pdf');
@@ -50,7 +50,7 @@ class ReportController extends Controller
         $pdf = Pdf::loadView('reports.seller-by-province', [
             'sellersByProvince' => $sellersByProvince,
             'totalSellers' => Seller::where('status_verifikasi', 'approved')->count(),
-            'generatedAt' => now()->format('d/m/Y H:i:s'),
+            'generatedAt' => now()->format('d-m-Y'),
         ]);
 
         return $pdf->download('laporan-penjual-per-provinsi-' . now()->format('Y-m-d') . '.pdf');
@@ -123,7 +123,7 @@ class ReportController extends Controller
                 ];
             });
 
-        $generatedAt = now()->format('d-m-Y H:i');
+        $generatedAt = now()->format('d-m-Y');
         $processedBy = auth()->user()->name ?? 'Admin Platform';
 
         $pdf = Pdf::loadView('reports.product-rating', [
