@@ -24,8 +24,12 @@ class ProductController extends Controller
                 return [
                     'id' => $product->id,
                     'nama_produk' => $product->nama_produk,
-                    'category' => $product->category->nama,
-                    'harga' => $product->harga,
+                    'category' => [
+                        'id' => $product->category->id,
+                        'nama' => $product->category->nama,
+                    ],
+                    'deskripsi' => $product->deskripsi,
+                    'harga' => (int) $product->harga,
                     'stok' => $product->stok,
                     'is_active' => $product->is_active,
                     'foto_produk' => $product->foto_produk ? Storage::url($product->foto_produk) : null,

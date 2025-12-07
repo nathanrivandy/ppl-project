@@ -1,9 +1,8 @@
-import { Head, Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
-import AppLayout from '@/layouts/app-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
-import { router } from '@inertiajs/react';
+import AppLayout from '@/layouts/app-layout';
+import { Head, Link, router } from '@inertiajs/react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
 
 interface Category {
     id: number;
@@ -36,12 +35,14 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
         <AppLayout>
             <Head title="Daftar Produk" />
 
-            <div className="py-12 bg-gray-50 min-h-screen">
+            <div className="min-h-screen bg-gray-50 py-12">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-6 flex items-center justify-between">
-                        <h1 className="text-3xl font-bold text-gray-900">Daftar Produk</h1>
+                        <h1 className="text-3xl font-bold text-gray-900">
+                            Daftar Produk
+                        </h1>
                         <Link href="/seller/products/create">
-                            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                            <Button className="bg-blue-600 text-white hover:bg-blue-700">
                                 <Plus className="mr-2 h-4 w-4" />
                                 Tambah Produk
                             </Button>
@@ -74,7 +75,7 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                                     </p>
                                     <div className="mt-6">
                                         <Link href="/seller/products/create">
-                                            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                                            <Button className="bg-blue-600 text-white hover:bg-blue-700">
                                                 <Plus className="mr-2 h-4 w-4" />
                                                 Tambah Produk
                                             </Button>
@@ -86,7 +87,10 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                     ) : (
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                             {products.map((product) => (
-                                <Card key={product.id} className="overflow-hidden bg-white">
+                                <Card
+                                    key={product.id}
+                                    className="overflow-hidden bg-white"
+                                >
                                     <div className="aspect-square overflow-hidden bg-gray-100">
                                         {product.foto_produk ? (
                                             <img
@@ -115,34 +119,44 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                                     <CardHeader className="pb-3">
                                         <div className="flex items-start justify-between">
                                             <div className="flex-1">
-                                                <CardTitle className="text-lg line-clamp-1 text-gray-900">
+                                                <CardTitle className="line-clamp-1 text-lg text-gray-900">
                                                     {product.nama_produk}
                                                 </CardTitle>
-                                                <p className="text-sm text-gray-500 mt-1">
+                                                <p className="mt-1 text-sm text-gray-500">
                                                     {product.category.nama}
                                                 </p>
                                             </div>
                                             <div
-                                                className={`px-2 py-1 rounded text-xs font-semibold ${
+                                                className={`rounded px-2 py-1 text-xs font-semibold ${
                                                     product.is_active
                                                         ? 'bg-green-100 text-green-800'
                                                         : 'bg-red-100 text-red-800'
                                                 }`}
                                             >
-                                                {product.is_active ? 'Aktif' : 'Nonaktif'}
+                                                {product.is_active
+                                                    ? 'Aktif'
+                                                    : 'Nonaktif'}
                                             </div>
                                         </div>
                                     </CardHeader>
                                     <CardContent className="space-y-3">
-                                        <p className="text-sm text-gray-600 line-clamp-2">
+                                        <p className="line-clamp-2 text-sm text-gray-600">
                                             {product.deskripsi}
                                         </p>
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <p className="text-xl font-bold text-gray-900">
-                                                    Rp {product.harga.toLocaleString('id-ID')}
+                                                    Rp
+                                                    {product.harga.toLocaleString(
+                                                        'id-ID',
+                                                        {
+                                                            maximumFractionDigits: 0,
+                                                        },
+                                                    )}
                                                 </p>
-                                                <p className="text-sm text-gray-500">Stok: {product.stok}</p>
+                                                <p className="text-sm text-gray-500">
+                                                    Stok: {product.stok}
+                                                </p>
                                             </div>
                                         </div>
                                         <div className="flex gap-2 pt-2">
@@ -161,7 +175,9 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                                             <Button
                                                 variant="outline"
                                                 className="hover:bg-red-50 hover:text-red-600"
-                                                onClick={() => handleDelete(product.id)}
+                                                onClick={() =>
+                                                    handleDelete(product.id)
+                                                }
                                             >
                                                 <Trash2 className="h-4 w-4" />
                                             </Button>

@@ -1,7 +1,5 @@
-import { Link, usePage } from '@inertiajs/react';
-import { type ReactNode } from 'react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { type SharedData } from '@/types';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,9 +8,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { LogOut, LayoutDashboard, ChevronDown } from 'lucide-react';
-import { router } from '@inertiajs/react';
+import { type SharedData } from '@/types';
+import { Link, router, usePage } from '@inertiajs/react';
+import { ChevronDown, LayoutDashboard, LogOut } from 'lucide-react';
+import { type ReactNode } from 'react';
 
 interface GuestLayoutProps {
     children: ReactNode;
@@ -37,11 +36,15 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
-            <header className="border-b bg-white shadow-sm sticky top-0 z-50">
+            <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
                 <div className="container mx-auto px-4 py-4">
                     <nav className="flex items-center justify-between">
                         <Link href="/" className="flex items-center space-x-2">
-                            <img src="/LogoAkade.png" alt="Akade Marketplace" className="h-12 w-auto" />
+                            <img
+                                src="/LogoAkade.png"
+                                alt="Akade Marketplace"
+                                className="h-16 w-auto"
+                            />
                         </Link>
 
                         <div className="flex items-center gap-4">
@@ -53,11 +56,13 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
                                     <DropdownMenuTrigger asChild>
                                         <Button
                                             variant="ghost"
-                                            className="flex items-center gap-2 h-auto py-2 hover:bg-gray-100"
+                                            className="flex h-auto items-center gap-2 py-2 hover:bg-gray-100"
                                         >
                                             <Avatar className="h-8 w-8">
-                                                <AvatarFallback className="bg-blue-600 text-white text-sm">
-                                                    {getInitials(auth.user.name)}
+                                                <AvatarFallback className="bg-blue-600 text-sm text-white">
+                                                    {getInitials(
+                                                        auth.user.name,
+                                                    )}
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div className="flex flex-col items-start">
@@ -68,18 +73,26 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
                                             <ChevronDown className="h-4 w-4 text-gray-500" />
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className="w-56">
+                                    <DropdownMenuContent
+                                        align="end"
+                                        className="w-56"
+                                    >
                                         <DropdownMenuLabel>
                                             <div className="flex flex-col">
-                                                <span className="font-medium">{auth.user.name}</span>
-                                                <span className="text-xs text-gray-500 font-normal">
+                                                <span className="font-medium">
+                                                    {auth.user.name}
+                                                </span>
+                                                <span className="text-xs font-normal text-gray-500">
                                                     {auth.user.email}
                                                 </span>
                                             </div>
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem asChild>
-                                            <Link href="/dashboard" className="flex items-center cursor-pointer">
+                                            <Link
+                                                href="/dashboard"
+                                                className="flex cursor-pointer items-center"
+                                            >
                                                 <LayoutDashboard className="mr-2 h-4 w-4" />
                                                 Dashboard
                                             </Link>
@@ -87,7 +100,7 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem
                                             onClick={handleLogout}
-                                            className="text-red-600 cursor-pointer"
+                                            className="cursor-pointer text-red-600"
                                         >
                                             <LogOut className="mr-2 h-4 w-4" />
                                             Log out
@@ -99,13 +112,13 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
                                     <Link href="/login">
                                         <Button
                                             variant="ghost"
-                                            className="text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                                            className="text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                         >
                                             Login
                                         </Button>
                                     </Link>
                                     <Link href="/register-seller">
-                                        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                                        <Button className="bg-blue-600 text-white hover:bg-blue-700">
                                             Daftar Sebagai Penjual
                                         </Button>
                                     </Link>
@@ -120,10 +133,13 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
             <main>{children}</main>
 
             {/* Footer */}
-            <footer className="border-t bg-white mt-12">
+            <footer className="mt-12 border-t bg-white">
                 <div className="container mx-auto px-4 py-8">
                     <div className="text-center text-gray-600">
-                        <p>&copy; 2025 Marketplace. Platform jual beli online terpercaya.</p>
+                        <p>
+                            &copy; 2025 Marketplace. Platform jual beli online
+                            terpercaya.
+                        </p>
                     </div>
                 </div>
             </footer>
