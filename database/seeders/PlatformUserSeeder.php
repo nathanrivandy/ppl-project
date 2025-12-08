@@ -14,7 +14,7 @@ class PlatformUserSeeder extends Seeder
     {
         \App\Models\User::create([
             'name' => 'Platform Admin',
-            'email' => 'admin@marketplace.com',
+            'email' => 'admin@akademarket.com',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
             'role' => 'platform',
             'is_active' => true,
