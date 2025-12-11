@@ -294,30 +294,26 @@ export default function CatalogShow({
                                                     {product.deskripsi}
                                                 </p>
                                             </div>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
 
-                            {/* Seller Info */}
-                            <Card className="mt-6 bg-white/95 backdrop-blur-sm border-2 border-blue-100 shadow-lg rounded-2xl">
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2 text-gray-900">
-                                        <Store className="h-5 w-5 text-blue-600" />
-                                        Informasi Penjual
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-2">
-                                        <p className="text-lg font-semibold text-gray-900">
-                                            {product.seller.nama_toko}
-                                        </p>
-                                        <div className="flex items-center gap-2 text-gray-600">
-                                            <MapPin className="h-4 w-4 text-blue-600" />
-                                            <span>
-                                                {product.seller.kota},{' '}
-                                                {product.seller.provinsi}
-                                            </span>
+                                            {/* Seller Info */}
+                                            <div className="border-t border-blue-100 pt-4">
+                                                <h3 className="mb-3 flex items-center gap-2 font-semibold text-gray-900">
+                                                    <Store className="h-5 w-5 text-blue-600" />
+                                                    Informasi Penjual
+                                                </h3>
+                                                <div className="space-y-2">
+                                                    <p className="text-lg font-semibold text-gray-900">
+                                                        {product.seller.nama_toko}
+                                                    </p>
+                                                    <div className="flex items-center gap-2 text-gray-600">
+                                                        <MapPin className="h-4 w-4 text-blue-600" />
+                                                        <span>
+                                                            {product.seller.kota},{' '}
+                                                            {product.seller.provinsi}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </CardContent>
