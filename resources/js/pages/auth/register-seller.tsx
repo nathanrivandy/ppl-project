@@ -6,6 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Spinner } from '@/components/ui/spinner';
 import { Stepper } from '@/components/ui/stepper';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -162,13 +169,86 @@ export default function RegisterSeller() {
         <>
             <Head title="Registrasi Penjual" />
             
-            <div className="min-h-screen bg-gray-50 py-12">
-                <div className="container mx-auto px-4 max-w-4xl">
-                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            <style>{`
+                @keyframes float_0 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-30px) translateX(10px); } }
+                @keyframes float_1 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-40px) translateX(-15px); } }
+                @keyframes float_2 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-35px) translateX(20px); } }
+                @keyframes float_3 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-45px) translateX(-10px); } }
+                @keyframes float_4 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-25px) translateX(15px); } }
+                @keyframes float_5 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-38px) translateX(-20px); } }
+                @keyframes float_6 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-32px) translateX(12px); } }
+                @keyframes float_7 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-42px) translateX(-8px); } }
+                @keyframes float_8 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-28px) translateX(18px); } }
+                @keyframes float_9 { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-36px) translateX(-12px); } }
+                
+                /* Dropdown styling */
+                select {
+                    accent-color: rgb(37, 99, 235);
+                    cursor: pointer;
+                }
+                
+                select option {
+                    background: white;
+                    color: rgb(17, 24, 39);
+                    padding: 10px 8px;
+                    margin: 4px 0;
+                    border-radius: 4px;
+                    line-height: 1.5;
+                    font-size: 14px;
+                }
+                
+                select option:hover {
+                    background-color: rgb(219, 234, 254);
+                    color: rgb(37, 99, 235);
+                    box-shadow: inset 0 0 0 2px rgb(147, 197, 253);
+                }
+                
+                select option:checked {
+                    background: linear-gradient(rgb(37, 99, 235), rgb(37, 99, 235));
+                    background-color: rgb(37, 99, 235) !important;
+                    color: white !important;
+                    font-weight: 500;
+                    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+                }
+                
+                select:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                    background-color: rgb(243, 244, 246);
+                }
+                
+                .bubble {
+                    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+                    box-shadow: 
+                        0 8px 32px 0 rgba(31, 38, 135, 0.37),
+                        inset -1px -1px 3px 0 rgba(0, 0, 0, 0.2),
+                        inset 1px 1px 3px 0 rgba(255, 255, 255, 0.5);
+                }
+            `}</style>
+            
+            <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 py-12 relative overflow-hidden">
+                {/* Decorative blur shapes */}
+                <div className="absolute top-0 left-0 w-96 h-96 bg-blue-300 rounded-full blur-3xl opacity-20 -translate-x-1/2 -translate-y-1/2"></div>
+                <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-200 rounded-full blur-3xl opacity-20 translate-x-1/2 translate-y-1/2"></div>
+                
+                {/* Floating bubbles */}
+                <div className="absolute top-10 left-16 w-8 h-8 rounded-full bubble" style={{ animation: 'float_0 4s ease-in-out infinite' }}></div>
+                <div className="absolute top-32 right-24 w-6 h-6 rounded-full bubble" style={{ animation: 'float_1 5s ease-in-out infinite 0.5s' }}></div>
+                <div className="absolute top-1/4 left-1/3 w-5 h-5 rounded-full bubble" style={{ animation: 'float_2 6s ease-in-out infinite 1s' }}></div>
+                <div className="absolute top-1/3 right-20 w-7 h-7 rounded-full bubble" style={{ animation: 'float_3 5.5s ease-in-out infinite 0.2s' }}></div>
+                <div className="absolute bottom-40 left-1/4 w-6 h-6 rounded-full bubble" style={{ animation: 'float_4 4.5s ease-in-out infinite 0.8s' }}></div>
+                <div className="absolute bottom-20 right-1/4 w-7 h-7 rounded-full bubble" style={{ animation: 'float_5 5.5s ease-in-out infinite 0.3s' }}></div>
+                <div className="absolute bottom-32 left-20 w-5 h-5 rounded-full bubble" style={{ animation: 'float_6 6s ease-in-out infinite 1.2s' }}></div>
+                <div className="absolute top-2/3 right-1/3 w-6 h-6 rounded-full bubble" style={{ animation: 'float_7 4.8s ease-in-out infinite 0.6s' }}></div>
+                <div className="absolute top-1/2 left-1/2 w-4 h-4 rounded-full bubble" style={{ animation: 'float_8 5.2s ease-in-out infinite 0.9s' }}></div>
+                <div className="absolute bottom-10 right-32 w-5 h-5 rounded-full bubble" style={{ animation: 'float_9 5.8s ease-in-out infinite 0.4s' }}></div>
+                
+                <div className="container mx-auto px-4 max-w-4xl relative z-10">
+                    <div className="bg-white rounded-lg shadow-lg border border-white/20 p-8">
                         {/* Header */}
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900">Registrasi Penjual</h1>
-                            <p className="text-gray-600 mt-2">Daftar sebagai penjual di marketplace</p>
+                            <h1 className="text-3xl font-bold text-white">Registrasi Penjual</h1>
+                            <p className="text-white/80 mt-2">Daftar sebagai penjual di marketplace</p>
                         </div>
 
                         {/* Stepper */}
@@ -324,18 +404,26 @@ export default function RegisterSeller() {
                                         <Label htmlFor="province_id" className="text-gray-700">
                                             Provinsi <span className="text-red-500">*</span>
                                         </Label>
-                                        <select
-                                            id="province_id"
+                                        <Select
                                             value={data.province_id}
-                                            onChange={(e) => setData('province_id', e.target.value)}
+                                            onValueChange={(value) => setData('province_id', value)}
                                             required
-                                            className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                                         >
-                                            <option value="">Pilih Provinsi</option>
-                                            {provinces.map(province => (
-                                                <option key={province.id} value={province.id}>{province.name}</option>
-                                            ))}
-                                        </select>
+                                            <SelectTrigger className="bg-white text-gray-900 border border-gray-300 focus:border-gray-500 focus-visible:ring-2 focus-visible:ring-gray-300 hover:border-gray-400 transition-colors rounded-md h-10 px-3 py-2 text-sm">
+                                                <SelectValue placeholder="Pilih Provinsi" />
+                                            </SelectTrigger>
+                                            <SelectContent className="bg-white border border-gray-200">
+                                                {provinces.map((province) => (
+                                                    <SelectItem
+                                                        key={province.id}
+                                                        value={province.id.toString()}
+                                                        className="text-gray-900 hover:bg-blue-50 focus:bg-blue-100 hover:text-gray-900 focus:text-gray-900"
+                                                    >
+                                                        {province.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                         <InputError message={errors.province_id} />
                                     </div>
 
@@ -343,19 +431,27 @@ export default function RegisterSeller() {
                                         <Label htmlFor="city_id" className="text-gray-700">
                                             Kabupaten/Kota <span className="text-red-500">*</span>
                                         </Label>
-                                        <select
-                                            id="city_id"
+                                        <Select
                                             value={data.city_id}
-                                            onChange={(e) => setData('city_id', e.target.value)}
+                                            onValueChange={(value) => setData('city_id', value)}
                                             required
                                             disabled={!data.province_id}
-                                            className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            <option value="">Pilih Kabupaten/Kota</option>
-                                            {cities.map(city => (
-                                                <option key={city.id} value={city.id}>{city.name}</option>
-                                            ))}
-                                        </select>
+                                            <SelectTrigger className="bg-white text-gray-900 border border-gray-300 focus:border-gray-500 focus-visible:ring-2 focus-visible:ring-gray-300 hover:border-gray-400 transition-colors rounded-md h-10 px-3 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                                                <SelectValue placeholder="Pilih Kabupaten/Kota" />
+                                            </SelectTrigger>
+                                            <SelectContent className="bg-white border border-gray-200">
+                                                {cities.map((city) => (
+                                                    <SelectItem
+                                                        key={city.id}
+                                                        value={city.id.toString()}
+                                                        className="text-gray-900 hover:bg-blue-50 focus:bg-blue-100 hover:text-gray-900 focus:text-gray-900"
+                                                    >
+                                                        {city.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                         <InputError message={errors.city_id} />
                                     </div>
 
@@ -363,19 +459,27 @@ export default function RegisterSeller() {
                                         <Label htmlFor="district_id" className="text-gray-700">
                                             Kecamatan <span className="text-red-500">*</span>
                                         </Label>
-                                        <select
-                                            id="district_id"
+                                        <Select
                                             value={data.district_id}
-                                            onChange={(e) => setData('district_id', e.target.value)}
+                                            onValueChange={(value) => setData('district_id', value)}
                                             required
                                             disabled={!data.city_id}
-                                            className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            <option value="">Pilih Kecamatan</option>
-                                            {districts.map(district => (
-                                                <option key={district.id} value={district.id}>{district.name}</option>
-                                            ))}
-                                        </select>
+                                            <SelectTrigger className="bg-white text-gray-900 border border-gray-300 focus:border-gray-500 focus-visible:ring-2 focus-visible:ring-gray-300 hover:border-gray-400 transition-colors rounded-md h-10 px-3 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                                                <SelectValue placeholder="Pilih Kecamatan" />
+                                            </SelectTrigger>
+                                            <SelectContent className="bg-white border border-gray-200">
+                                                {districts.map((district) => (
+                                                    <SelectItem
+                                                        key={district.id}
+                                                        value={district.id.toString()}
+                                                        className="text-gray-900 hover:bg-blue-50 focus:bg-blue-100 hover:text-gray-900 focus:text-gray-900"
+                                                    >
+                                                        {district.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                         <InputError message={errors.district_id} />
                                     </div>
 
@@ -383,19 +487,27 @@ export default function RegisterSeller() {
                                         <Label htmlFor="village_id" className="text-gray-700">
                                             Kelurahan <span className="text-red-500">*</span>
                                         </Label>
-                                        <select
-                                            id="village_id"
+                                        <Select
                                             value={data.village_id}
-                                            onChange={(e) => setData('village_id', e.target.value)}
+                                            onValueChange={(value) => setData('village_id', value)}
                                             required
                                             disabled={!data.district_id}
-                                            className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            <option value="">Pilih Kelurahan</option>
-                                            {villages.map(village => (
-                                                <option key={village.id} value={village.id}>{village.name}</option>
-                                            ))}
-                                        </select>
+                                            <SelectTrigger className="bg-white text-gray-900 border border-gray-300 focus:border-gray-500 focus-visible:ring-2 focus-visible:ring-gray-300 hover:border-gray-400 transition-colors rounded-md h-10 px-3 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                                                <SelectValue placeholder="Pilih Kelurahan" />
+                                            </SelectTrigger>
+                                            <SelectContent className="bg-white border border-gray-200">
+                                                {villages.map((village) => (
+                                                    <SelectItem
+                                                        key={village.id}
+                                                        value={village.id.toString()}
+                                                        className="text-gray-900 hover:bg-blue-50 focus:bg-blue-100 hover:text-gray-900 focus:text-gray-900"
+                                                    >
+                                                        {village.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                         <InputError message={errors.village_id} />
                                     </div>
                                 </div>
@@ -524,9 +636,8 @@ export default function RegisterSeller() {
                                 {currentStep > 1 ? (
                                     <Button
                                         type="button"
-                                        variant="outline"
                                         onClick={prevStep}
-                                        className="flex items-center gap-2"
+                                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                         Sebelumnya

@@ -572,10 +572,10 @@ export default function CatalogShow({
                                                             }
                                                             required
                                                         >
-                                                            <SelectTrigger className="bg-white text-gray-900 border-2 border-blue-200 focus:border-blue-500 hover:border-blue-300 transition-colors">
+                                                            <SelectTrigger className="bg-white text-gray-900 border border-gray-300 focus:border-gray-500 focus-visible:ring-2 focus-visible:ring-gray-300 hover:border-gray-400 transition-colors rounded-md h-10 px-3 py-2 text-sm">
                                                                 <SelectValue placeholder="Pilih provinsi Anda" />
                                                             </SelectTrigger>
-                                                            <SelectContent className="bg-white border-2 border-blue-100">
+                                                            <SelectContent className="bg-white border border-gray-200">
                                                                 {provinces.map(
                                                                     (
                                                                         province,
@@ -585,7 +585,7 @@ export default function CatalogShow({
                                                                                 province.id
                                                                             }
                                                                             value={province.id.toString()}
-                                                                            className="text-gray-900 hover:bg-blue-50 focus:bg-blue-100"
+                                                                            className="text-gray-900 hover:bg-blue-50 focus:bg-blue-100 hover:text-gray-900 focus:text-gray-900"
                                                                         >
                                                                             {
                                                                                 province.name

@@ -194,7 +194,7 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                                 )}
                                             </div>
                                             <CardHeader className="pb-0.5 bg-gradient-to-b from-white to-blue-50/50 px-1.5 pt-1.5">
-                                                <CardTitle className="line-clamp-1 text-xs text-gray-900 font-bold group-hover:text-blue-700 transition-colors mb-0.5">
+                                                <CardTitle className="line-clamp-1 text-xs text-gray-900 font-bold group-hover:text-gray-900 transition-colors mb-0.5">
                                                     {product.nama_produk}
                                                 </CardTitle>
                                                 <Badge variant="outline" className="w-fit border-blue-300 text-blue-700 bg-blue-50 font-semibold text-[10px] px-1 py-0">
@@ -207,18 +207,24 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                                         {formatPrice(product.harga)}
                                                     </p>
                                                 </div>
-                                                <div className="flex items-center justify-between bg-blue-50/60 rounded-sm p-1 border border-blue-100 gap-1">
+                                                <div className="flex items-center justify-between bg-gray-50 rounded-sm p-1 border border-gray-200 gap-1">
                                                     <div className="flex items-center gap-0.5">
                                                         <StarRating rating={Math.round(product.average_rating)} />
                                                         <span className="text-[10px] text-gray-700 font-medium">
                                                             ({product.reviews_count})
                                                         </span>
                                                     </div>
-                                                    <p className="text-[10px] text-blue-700 font-semibold bg-blue-100 px-1.5 py-0.5 rounded ml-auto">
+                                                    <Badge
+                                                        className={`text-[10px] px-1.5 py-0.5 font-semibold ml-auto ${
+                                                            product.stok < 2
+                                                                ? 'bg-red-100 text-red-800'
+                                                                : 'bg-green-100 text-green-800'
+                                                        }`}
+                                                    >
                                                         Stok: {product.stok}
-                                                    </p>
+                                                    </Badge>
                                                 </div>
-                                                <p className="text-xs text-blue-700 font-bold mb-0 pt-0.5 border-t border-blue-100">
+                                                <p className="text-xs text-gray-900 font-bold mb-0 pt-0.5 border-t border-blue-100">
                                                     {product.seller.nama_toko}
                                                 </p>
                                             </CardContent>
