@@ -215,14 +215,11 @@ export default function CatalogShow({
                 </div>
             )}
 
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 py-6">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="py-6 pb-12 min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
+                <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10">
                     {/* Back Button */}
                     <Link href="/catalog">
-                        <Button
-                            variant="outline"
-                            className="mb-6 border-blue-300 bg-white text-gray-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700"
-                        >
+                        <Button className="mb-6 bg-white text-blue-600 hover:bg-gray-100 font-bold">
                             <ArrowLeft className="mr-2 h-4 w-4" />
                             Kembali ke Katalog
                         </Button>
@@ -231,11 +228,11 @@ export default function CatalogShow({
                     <div className="grid gap-6 lg:grid-cols-3">
                         {/* Main Product Info */}
                         <div className="lg:col-span-2">
-                            <Card className="bg-white">
+                            <Card className="bg-white/95 backdrop-blur-sm border-2 border-blue-100 shadow-lg rounded-2xl overflow-hidden">
                                 <CardContent className="p-6">
                                     <div className="grid gap-6 md:grid-cols-2">
                                         {/* Product Image */}
-                                        <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
+                                        <div className="aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-blue-100 via-blue-50 to-white">
                                             {product.foto_produk ? (
                                                 <img
                                                     src={`/storage/${product.foto_produk}`}
@@ -244,7 +241,7 @@ export default function CatalogShow({
                                                 />
                                             ) : (
                                                 <div className="flex h-full w-full items-center justify-center">
-                                                    <Package className="h-24 w-24 text-gray-400" />
+                                                    <Package className="h-24 w-24 text-blue-300" />
                                                 </div>
                                             )}
                                         </div>
@@ -257,7 +254,7 @@ export default function CatalogShow({
                                                 </h1>
                                                 <Badge
                                                     variant="outline"
-                                                    className="mt-2 border-gray-300 text-gray-700"
+                                                    className="mt-2 border-blue-300 text-blue-700 bg-blue-50 font-semibold"
                                                 >
                                                     {product.category.nama}
                                                 </Badge>
@@ -284,8 +281,8 @@ export default function CatalogShow({
                                             </div>
 
                                             {/* Price */}
-                                            <div className="border-y border-gray-200 py-4">
-                                                <p className="text-4xl font-bold text-blue-600">
+                                            <div className="border-y border-blue-100 py-4">
+                                                <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
                                                     {formatPrice(product.harga)}
                                                 </p>
                                             </div>
@@ -316,37 +313,33 @@ export default function CatalogShow({
                                                     {product.deskripsi}
                                                 </p>
                                             </div>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
 
-                            {/* Seller Info */}
-                            <Card className="mt-6 bg-white">
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2 text-gray-900">
-                                        <Store className="h-5 w-5" />
-                                        Informasi Penjual
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-2">
-                                        <p className="text-lg font-semibold text-gray-900">
-                                            {product.seller.nama_toko}
-                                        </p>
-                                        <div className="flex items-center gap-2 text-gray-600">
-                                            <MapPin className="h-4 w-4" />
-                                            <span>
-                                                {product.seller.kota},{' '}
-                                                {product.seller.provinsi}
-                                            </span>
+                                            {/* Seller Info */}
+                                            <div className="border-t border-blue-100 pt-4">
+                                                <h3 className="mb-3 flex items-center gap-2 font-semibold text-gray-900">
+                                                    <Store className="h-5 w-5 text-blue-600" />
+                                                    Informasi Penjual
+                                                </h3>
+                                                <div className="space-y-2">
+                                                    <p className="text-lg font-semibold text-gray-900">
+                                                        {product.seller.nama_toko}
+                                                    </p>
+                                                    <div className="flex items-center gap-2 text-gray-600">
+                                                        <MapPin className="h-4 w-4 text-blue-600" />
+                                                        <span>
+                                                            {product.seller.kota},{' '}
+                                                            {product.seller.provinsi}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </CardContent>
                             </Card>
 
                             {/* Reviews Section */}
-                            <Card className="mt-6 bg-white">
+                            <Card className="mt-6 bg-white/95 backdrop-blur-sm border-2 border-blue-100 shadow-lg rounded-2xl">
                                 <CardHeader>
                                     <div className="flex items-center justify-between">
                                         <CardTitle className="text-gray-900">
@@ -358,7 +351,7 @@ export default function CatalogShow({
                                                     !showReviewForm,
                                                 )
                                             }
-                                            className="bg-blue-600 text-white hover:bg-blue-700"
+                                            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800"
                                         >
                                             Tulis Review
                                         </Button>
@@ -368,7 +361,7 @@ export default function CatalogShow({
                                     {/* Rating Summary */}
                                     <div className="rounded-lg bg-gray-50 p-4">
                                         <div className="grid gap-4 md:grid-cols-2">
-                                            <div className="text-center">
+                                            <div className="text-center p-4 bg-gray-50 rounded-lg">
                                                 <p className="text-5xl font-bold text-gray-900">
                                                     {averageRating.toFixed(1)}
                                                 </p>
@@ -579,10 +572,10 @@ export default function CatalogShow({
                                                             }
                                                             required
                                                         >
-                                                            <SelectTrigger className="bg-white text-gray-900">
+                                                            <SelectTrigger className="bg-white text-gray-900 border-2 border-blue-200 focus:border-blue-500 hover:border-blue-300 transition-colors">
                                                                 <SelectValue placeholder="Pilih provinsi Anda" />
                                                             </SelectTrigger>
-                                                            <SelectContent className="bg-white">
+                                                            <SelectContent className="bg-white border-2 border-blue-100">
                                                                 {provinces.map(
                                                                     (
                                                                         province,
@@ -592,7 +585,7 @@ export default function CatalogShow({
                                                                                 province.id
                                                                             }
                                                                             value={province.id.toString()}
-                                                                            className="text-gray-900"
+                                                                            className="text-gray-900 hover:bg-blue-50 focus:bg-blue-100"
                                                                         >
                                                                             {
                                                                                 province.name
@@ -698,18 +691,18 @@ export default function CatalogShow({
                                                             disabled={
                                                                 processing
                                                             }
-                                                            className="bg-blue-600 hover:bg-blue-700"
+                                                            className="bg-blue-600 hover:bg-blue-700 text-white"
                                                         >
                                                             Kirim Review
                                                         </Button>
                                                         <Button
                                                             type="button"
-                                                            variant="outline"
                                                             onClick={() =>
                                                                 setShowReviewForm(
                                                                     false,
                                                                 )
                                                             }
+                                                            className="bg-red-600 hover:bg-red-700 text-white"
                                                         >
                                                             Batal
                                                         </Button>
@@ -732,7 +725,7 @@ export default function CatalogShow({
                                             product.reviews.map((review) => (
                                                 <Card
                                                     key={review.id}
-                                                    className="bg-gray-50"
+                                                    className="bg-gradient-to-b from-blue-50/50 to-white border border-blue-100"
                                                 >
                                                     <CardContent className="p-4">
                                                         <div className="flex items-start justify-between">
@@ -772,7 +765,7 @@ export default function CatalogShow({
 
                         {/* Sidebar - Related Products */}
                         <div>
-                            <Card className="bg-white shadow-md">
+                            <Card className="bg-white/95 backdrop-blur-sm border-2 border-blue-100 shadow-lg rounded-2xl">
                                 <CardHeader>
                                     <CardTitle className="text-gray-900">
                                         Produk Terkait
@@ -790,7 +783,7 @@ export default function CatalogShow({
                                                     key={relatedProduct.id}
                                                     href={`/catalog/${relatedProduct.id}`}
                                                 >
-                                                    <Card className="overflow-hidden border-gray-200 bg-white transition-shadow hover:shadow-md">
+                                                    <Card className="overflow-hidden transition-all hover:shadow-lg hover:border-blue-300 border-2 border-blue-100 bg-white rounded-lg mb-4">
                                                         <div className="flex gap-3 p-3">
                                                             <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded border border-gray-200 bg-white">
                                                                 {relatedProduct.foto_produk ? (
