@@ -10,49 +10,34 @@ use Inertia\Inertia;
 class CatalogController extends Controller
 {
     /**
-     * Display product catalog with search and filter
+     * Display product catalog with search
      */
     public function index(Request $request)
     {
         $query = Product::with(['category', 'seller', 'reviews'])
             ->where('is_active', true);
 
-        // Search by product name
+        // Search by product name, category name, seller name, city, or province
         if ($request->filled('search')) {
-            $query->where('nama_produk', 'like', '%' . $request->search . '%');
+            $searchTerm = '%' . $request->search . '%';
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('nama_produk', 'like', $searchTerm)
+                    ->orWhereHas('category', function ($cat) use ($searchTerm) {
+                        $cat->where('nama', 'like', $searchTerm);
+                    })
+                    ->orWhereHas('seller', function ($seller) use ($searchTerm) {
+                        $seller->where('nama_toko', 'like', $searchTerm);
+                    })
+                    ->orWhereHas('seller.city', function ($city) use ($searchTerm) {
+                        $city->where('name', 'like', $searchTerm);
+                    })
+                    ->orWhereHas('seller.province', function ($province) use ($searchTerm) {
+                        $province->where('name', 'like', $searchTerm);
+                    });
+            });
         }
 
-        // Filter by category
-        if ($request->filled('category')) {
-            $query->where('category_id', $request->category);
-        }
-
-        // Filter by price range
-        if ($request->filled('min_price')) {
-            $query->where('harga', '>=', $request->min_price);
-        }
-        if ($request->filled('max_price')) {
-            $query->where('harga', '<=', $request->max_price);
-        }
-
-        // Sort products
-        $sortBy = $request->get('sort', 'latest');
-        switch ($sortBy) {
-            case 'price_low':
-                $query->orderBy('harga', 'asc');
-                break;
-            case 'price_high':
-                $query->orderBy('harga', 'desc');
-                break;
-            case 'name':
-                $query->orderBy('nama_produk', 'asc');
-                break;
-            default: // latest
-                $query->latest();
-                break;
-        }
-
-        $products = $query->paginate(12)->withQueryString();
+        $products = $query->latest()->paginate(12)->withQueryString();
 
         // Add average rating to each product
         $products->getCollection()->transform(function ($product) {
@@ -66,10 +51,6 @@ class CatalogController extends Controller
             'categories' => Category::all(),
             'filters' => [
                 'search' => $request->search,
-                'category' => $request->category,
-                'min_price' => $request->min_price,
-                'max_price' => $request->max_price,
-                'sort' => $sortBy,
             ],
         ]);
     }
@@ -114,6 +95,7 @@ class CatalogController extends Controller
                 ->limit(4)
                 ->get(),
             'provinces' => $provinces,
+            'categories' => Category::all(),
         ]);
     }
 }

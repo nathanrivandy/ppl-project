@@ -33,7 +33,7 @@ export default function Welcome() {
 
     return (
         <>
-            <Head title="Marketplace - Platform Jual Beli Online" />
+            <Head title="AKD Market - Platform Jual Barang Online" />
             
             <div className="min-h-screen bg-white">
                 {/* Header */}
@@ -41,7 +41,7 @@ export default function Welcome() {
                     <div className="container mx-auto px-4 py-4">
                         <nav className="flex items-center justify-between">
                             <div className="flex items-center space-x-2">
-                                <h1 className="text-2xl font-bold text-gray-900">🛍️ Marketplace</h1>
+                                <img src="/LogoAKD.png" alt="AKD Logo" className="h-10 w-auto" />
                             </div>
                             
                             <div className="flex items-center gap-4">
@@ -120,25 +120,33 @@ export default function Welcome() {
                 )}
 
                 {/* Hero Section */}
-                <section className="container mx-auto px-4 py-20 text-center bg-gradient-to-b from-blue-50 to-white">
-                    <h1 className="text-5xl font-bold mb-6 text-gray-900">
-                        Selamat Datang di Marketplace
-                    </h1>
-                    <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                        Platform jual beli online terpercaya untuk berbagai produk dari penjual terverifikasi
-                    </p>
+                <section className="relative py-20 text-center bg-gradient-to-b from-blue-50 to-white overflow-visible">
+                    {/* Blue silhouette - full width mentok kanan kiri */}
+                    <div className="absolute left-0 right-0 top-0 h-80 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 rounded-b-full -z-10" />
                     
-                    <div className="flex gap-4 justify-center">
-                        <Link href="/catalog">
-                            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
-                                Jelajahi Produk
-                            </Button>
-                        </Link>
-                        <Link href="/register-seller">
-                            <Button size="lg" className="bg-white hover:bg-blue-50 text-blue-600 border-2 border-blue-600">
-                                Mulai Berjualan
-                            </Button>
-                        </Link>
+                    <div className="container mx-auto px-4 relative">
+                        <div className="relative">
+
+                        <h1 className="text-5xl font-bold mb-6 text-gray-900 relative">
+                            Selamat Datang di AKD Market
+                        </h1>
+                        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto relative">
+                            Platform jual barang online terlengkap untuk berbagai produk dari penjual terverifikasi
+                        </p>
+                        
+                        <div className="flex gap-4 justify-center relative">
+                            <Link href="/catalog">
+                                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+                                    Jelajahi Produk
+                                </Button>
+                            </Link>
+                            <Link href="/register-seller">
+                                <Button size="lg" className="bg-white hover:bg-blue-50 text-blue-600 border-2 border-blue-600">
+                                    Mulai Berjualan
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
                     </div>
                 </section>
 
@@ -196,7 +204,7 @@ export default function Welcome() {
                     <div className="container mx-auto px-4 text-center">
                         <h2 className="text-3xl font-bold mb-4 text-white">Ingin Bergabung Sebagai Penjual?</h2>
                         <p className="text-lg mb-8 text-blue-50">
-                            Daftarkan toko Anda sekarang dan jangkau lebih banyak pelanggan
+                            Daftarkan toko Anda sekarang
                         </p>
                         <Link href="/register-seller">
                             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
@@ -209,7 +217,7 @@ export default function Welcome() {
                 {/* Footer */}
                 <footer className="border-t border-gray-200 bg-white py-8">
                     <div className="container mx-auto px-4 text-center text-gray-600">
-                        <p>&copy; 2025 Marketplace. Platform Jual Beli Online Terpercaya.</p>
+                        <p>&copy; 2025 AKD Market. Platform jual barang online terlengkap.</p>
                     </div>
                 </footer>
             </div>

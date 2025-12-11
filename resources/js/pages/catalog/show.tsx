@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import GuestLayout from '@/layouts/guest-layout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, router } from '@inertiajs/react';
 import { ArrowLeft, MapPin, Package, Star, Store } from 'lucide-react';
 import { useState } from 'react';
 
@@ -67,7 +67,17 @@ interface Props {
     };
     relatedProducts: Product[];
     provinces: Province[];
+    categories: Array<{ id: number; nama: string }>;
 }
+
+const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(price);
+};
 
 const StarRating = ({
     rating,
@@ -105,6 +115,7 @@ export default function CatalogShow({
     ratingDistribution,
     relatedProducts,
     provinces,
+    categories,
 }: Props) {
     const [selectedRating, setSelectedRating] = useState(0);
     const [hoveredRating, setHoveredRating] = useState(0);
@@ -132,8 +143,9 @@ export default function CatalogShow({
     };
 
     return (
-        <GuestLayout>
-            <Head title={product.nama_produk} />
+        <GuestLayout 
+            categories={categories}
+        >
 
             <div className="py-6">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -203,10 +215,7 @@ export default function CatalogShow({
                                             {/* Price */}
                                             <div className="border-y border-gray-200 py-4">
                                                 <p className="text-4xl font-bold text-blue-600">
-                                                    Rp{' '}
-                                                    {product.harga.toLocaleString(
-                                                        'id-ID',
-                                                    )}
+                                                    {formatPrice(product.harga)}
                                                 </p>
                                             </div>
 
@@ -734,10 +743,7 @@ export default function CatalogShow({
                                                                     }
                                                                 </h4>
                                                                 <p className="mt-1 font-bold text-blue-600">
-                                                                    Rp{' '}
-                                                                    {relatedProduct.harga.toLocaleString(
-                                                                        'id-ID',
-                                                                    )}
+                                                                    {formatPrice(relatedProduct.harga)}
                                                                 </p>
                                                             </div>
                                                         </div>

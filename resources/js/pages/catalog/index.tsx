@@ -31,12 +31,21 @@ interface Category {
     nama: string;
 }
 
+interface Province {
+    id: number;
+    name: string;
+}
+
+interface City {
+    id: number;
+    name: string;
+}
+
 interface Filters {
     search: string | null;
     category: string | null;
-    min_price: string | null;
-    max_price: string | null;
-    sort: string;
+    city: string | null;
+    province: string | null;
 }
 
 interface Props {
@@ -53,37 +62,20 @@ interface Props {
 
 export default function CatalogIndex({ products, categories, filters }: Props) {
     const [search, setSearch] = useState(filters.search || '');
-    const [selectedCategory, setSelectedCategory] = useState(filters.category || '');
-    const [minPrice, setMinPrice] = useState(filters.min_price || '');
-    const [maxPrice, setMaxPrice] = useState(filters.max_price || '');
-    const [sortBy, setSortBy] = useState(filters.sort || 'latest');
-    const [showFilters, setShowFilters] = useState(false);
 
-    // Auto-search with debounce (500ms delay)
+    // Auto-search with debounce
     useEffect(() => {
         const timer = setTimeout(() => {
             router.get('/catalog', {
                 search,
-                category: selectedCategory,
-                min_price: minPrice,
-                max_price: maxPrice,
-                sort: sortBy,
             }, {
                 preserveState: true,
                 preserveScroll: true,
             });
-        }, 500);
+        }, 200);
 
         return () => clearTimeout(timer);
-    }, [search, selectedCategory, minPrice, maxPrice, sortBy]);
-
-    const handleReset = () => {
-        setSearch('');
-        setSelectedCategory('');
-        setMinPrice('');
-        setMaxPrice('');
-        setSortBy('latest');
-    };
+    }, [search]);
 
     const StarRating = ({ rating }: { rating: number }) => {
         return (
@@ -102,127 +94,39 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
         );
     };
 
+    const formatPrice = (price: number) => {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(price);
+    };
+
     return (
-        <GuestLayout>
+        <GuestLayout 
+            categories={categories}
+            filters={filters}
+            onFilterChange={(filters) => {
+                setSearch(filters.search);
+            }}
+        >
             <Head title="Katalog Produk" />
 
-            <div className="py-6">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="py-6 pb-12 min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
+                <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10">
                     {/* Header */}
                     <div className="mb-6">
-                        <h1 className="text-3xl font-bold text-gray-900">Katalog Produk</h1>
-                        <p className="mt-2 text-gray-600">
-                            Temukan produk yang Anda butuhkan dari berbagai penjual
+                        <h1 className="text-3xl font-bold text-white drop-shadow-lg">Katalog Produk</h1>
+                        <p className="mt-2 text-blue-50">
+                            Temukan produk yang anda inginkan dari berbagai penjual
                         </p>
                     </div>
 
-                    {/* Search and Filter Bar */}
-                    <Card className="mb-6 bg-white">
-                        <CardContent className="p-4">
-                            <div className="flex flex-col gap-4">
-                                {/* Search Box */}
-                                <div className="flex gap-2">
-                                    <div className="relative flex-1">
-                                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                                        <Input
-                                            type="text"
-                                            placeholder="Cari produk..."
-                                            value={search}
-                                            onChange={(e) => setSearch(e.target.value)}
-                                            className="pl-10 bg-white text-gray-900"
-                                        />
-                                    </div>
-                                    <Button
-                                        onClick={() => setShowFilters(!showFilters)}
-                                        variant="outline"
-                                    >
-                                        <Filter className="mr-2 h-4 w-4" />
-                                        Filter
-                                    </Button>
-                                </div>
-
-                                {/* Filter Panel */}
-                                {showFilters && (
-                                    <div className="grid gap-4 rounded-lg border border-gray-200 bg-gray-50 p-4 md:grid-cols-4">
-                                        {/* Category Filter */}
-                                        <div>
-                                            <label className="mb-2 block text-sm font-medium text-gray-900">
-                                                Kategori
-                                            </label>
-                                            <select
-                                                value={selectedCategory}
-                                                onChange={(e) => setSelectedCategory(e.target.value)}
-                                                className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900"
-                                            >
-                                                <option value="">Semua Kategori</option>
-                                                {categories.map((category) => (
-                                                    <option key={category.id} value={category.id}>
-                                                        {category.nama}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-
-                                        {/* Min Price */}
-                                        <div>
-                                            <label className="mb-2 block text-sm font-medium text-gray-900">
-                                                Harga Min
-                                            </label>
-                                            <Input
-                                                type="number"
-                                                placeholder="0"
-                                                value={minPrice}
-                                                onChange={(e) => setMinPrice(e.target.value)}
-                                                className="bg-white text-gray-900"
-                                            />
-                                        </div>
-
-                                        {/* Max Price */}
-                                        <div>
-                                            <label className="mb-2 block text-sm font-medium text-gray-900">
-                                                Harga Max
-                                            </label>
-                                            <Input
-                                                type="number"
-                                                placeholder="999999999"
-                                                value={maxPrice}
-                                                onChange={(e) => setMaxPrice(e.target.value)}
-                                                className="bg-white text-gray-900"
-                                            />
-                                        </div>
-
-                                        {/* Sort By */}
-                                        <div>
-                                            <label className="mb-2 block text-sm font-medium text-gray-900">
-                                                Urutkan
-                                            </label>
-                                            <select
-                                                value={sortBy}
-                                                onChange={(e) => setSortBy(e.target.value)}
-                                                className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900"
-                                            >
-                                                <option value="latest">Terbaru</option>
-                                                <option value="price_low">Harga Terendah</option>
-                                                <option value="price_high">Harga Tertinggi</option>
-                                                <option value="name">Nama A-Z</option>
-                                            </select>
-                                        </div>
-
-                                        {/* Action Buttons */}
-                                        <div className="flex gap-2 md:col-span-4">
-                                            <Button onClick={handleReset} variant="outline">
-                                                Reset
-                                            </Button>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </CardContent>
-                    </Card>
 
                     {/* Results Info */}
                     <div className="mb-4 flex items-center justify-between">
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-white">
                             Menampilkan {products.data.length} dari {products.total} produk
                         </p>
                     </div>
@@ -256,21 +160,24 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                         </Card>
                     ) : (
                         <>
-                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                 {products.data.map((product) => (
                                     <Link key={product.id} href={`/catalog/${product.id}`}>
-                                        <Card className="h-full overflow-hidden bg-white transition-shadow hover:shadow-lg">
-                                            <div className="aspect-square overflow-hidden bg-gray-100">
+                                        <Card className="h-full overflow-hidden bg-white/95 backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/50 hover:-translate-y-2 hover:border-blue-500 border-2 border-blue-100 rounded-lg group p-1">
+                                            <div className="aspect-[5/4] overflow-hidden bg-gradient-to-br from-blue-100 via-blue-50 to-white relative rounded-sm">
+                                                {/* Gradient Overlay on Hover */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+                                                
                                                 {product.foto_produk ? (
                                                     <img
                                                         src={`/storage/${product.foto_produk}`}
                                                         alt={product.nama_produk}
-                                                        className="h-full w-full object-cover"
+                                                        className="h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
                                                     />
                                                 ) : (
-                                                    <div className="flex h-full w-full items-center justify-center">
+                                                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
                                                         <svg
-                                                            className="h-16 w-16 text-gray-400"
+                                                            className="h-16 w-16 text-blue-300 group-hover:text-blue-400 transition-colors"
                                                             fill="none"
                                                             viewBox="0 0 24 24"
                                                             stroke="currentColor"
@@ -285,35 +192,32 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                                     </div>
                                                 )}
                                             </div>
-                                            <CardHeader className="pb-3">
-                                                <CardTitle className="line-clamp-2 text-base text-gray-900">
+                                            <CardHeader className="pb-0.5 bg-gradient-to-b from-white to-blue-50/50 px-1.5 pt-1.5">
+                                                <CardTitle className="line-clamp-1 text-xs text-gray-900 font-bold group-hover:text-blue-700 transition-colors mb-0.5">
                                                     {product.nama_produk}
                                                 </CardTitle>
-                                                <Badge variant="outline" className="w-fit border-gray-300 text-gray-700">
+                                                <Badge variant="outline" className="w-fit border-blue-300 text-blue-700 bg-blue-50 font-semibold text-[10px] px-1 py-0">
                                                     {product.category.nama}
                                                 </Badge>
                                             </CardHeader>
-                                            <CardContent className="space-y-2">
-                                                <p className="text-sm text-gray-600 line-clamp-2">
-                                                    {product.deskripsi}
-                                                </p>
-                                                <div className="flex items-center justify-between">
-                                                    <p className="text-lg font-bold text-gray-900">
-                                                        Rp {product.harga.toLocaleString('id-ID')}
+                                            <CardContent className="space-y-1 bg-gradient-to-b from-blue-50/50 to-white pb-1.5 px-1.5">
+                                                <div className="flex items-center justify-between border-t border-blue-100 pt-0.5">
+                                                    <p className="text-base font-extrabold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
+                                                        {formatPrice(product.harga)}
                                                     </p>
                                                 </div>
-                                                <div className="flex items-center justify-between">
-                                                    <div className="flex items-center gap-2">
+                                                <div className="flex items-center justify-between bg-blue-50/60 rounded-sm p-1 border border-blue-100 gap-1">
+                                                    <div className="flex items-center gap-0.5">
                                                         <StarRating rating={Math.round(product.average_rating)} />
-                                                        <span className="text-sm text-gray-600">
+                                                        <span className="text-[10px] text-gray-700 font-medium">
                                                             ({product.reviews_count})
                                                         </span>
                                                     </div>
-                                                    <p className="text-sm text-gray-500">
+                                                    <p className="text-[10px] text-blue-700 font-semibold bg-blue-100 px-1.5 py-0.5 rounded ml-auto">
                                                         Stok: {product.stok}
                                                     </p>
                                                 </div>
-                                                <p className="text-xs text-gray-500">
+                                                <p className="text-xs text-blue-700 font-bold mb-0 pt-0.5 border-t border-blue-100">
                                                     {product.seller.nama_toko}
                                                 </p>
                                             </CardContent>
@@ -331,11 +235,12 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                                 router.get(`/catalog?page=${products.current_page - 1}`)
                                             }
                                             variant="outline"
+                                            className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300"
                                         >
                                             Previous
                                         </Button>
                                     )}
-                                    <span className="flex items-center px-4 text-sm text-gray-700">
+                                    <span className="flex items-center px-4 text-sm text-white font-medium">
                                         Page {products.current_page} of {products.last_page}
                                     </span>
                                     {products.current_page < products.last_page && (
@@ -344,6 +249,7 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                                 router.get(`/catalog?page=${products.current_page + 1}`)
                                             }
                                             variant="outline"
+                                            className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300"
                                         >
                                             Next
                                         </Button>
