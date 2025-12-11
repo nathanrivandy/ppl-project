@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import GuestLayout from '@/layouts/guest-layout';
-import { Head, Link, useForm, router } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, MapPin, Package, Star, Store } from 'lucide-react';
 import { useState } from 'react';
 
@@ -145,7 +145,7 @@ export default function CatalogShow({
                 reset();
                 setShowReviewForm(false);
                 setSelectedRating(0);
-                
+
                 // Auto-dismiss notification after 5 seconds
                 setTimeout(() => {
                     setShowNotification(false);
@@ -155,30 +155,39 @@ export default function CatalogShow({
     };
 
     return (
-        <GuestLayout 
-            categories={categories}
-        >
+        <GuestLayout categories={categories}>
             <Head title={product.nama_produk} />
 
             {/* Notification Popup */}
             {showNotification && (
-                <div className="fixed top-4 right-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 shadow-2xl rounded-lg w-96">
+                <div className="fixed top-4 right-4 z-50 animate-in duration-300 fade-in slide-in-from-top-2">
+                    <Card className="w-96 rounded-lg border-2 border-green-300 bg-gradient-to-r from-green-50 to-emerald-50 shadow-2xl">
                         <CardContent className="p-6">
                             <div className="flex gap-4">
                                 <div className="flex-shrink-0">
-                                    <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <svg
+                                        className="h-6 w-6 text-green-600"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
                                     </svg>
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="text-lg font-bold text-green-800 mb-1">
+                                    <h3 className="mb-1 text-lg font-bold text-green-800">
                                         Terima Kasih!
                                     </h3>
-                                    <p className="text-sm text-green-700 mb-2">
-                                        Anda telah memberi komentar dan rating produk ini.
+                                    <p className="mb-2 text-sm text-green-700">
+                                        Anda telah memberi komentar dan rating
+                                        produk ini.
                                     </p>
-                                    <div className="text-xs text-green-600 bg-green-100 rounded px-2 py-1 inline-block">
+                                    <div className="inline-block rounded bg-green-100 px-2 py-1 text-xs text-green-600">
                                         {submittedUser.email}
                                     </div>
                                 </div>
@@ -186,8 +195,18 @@ export default function CatalogShow({
                                     onClick={() => setShowNotification(false)}
                                     className="flex-shrink-0 text-green-600 hover:text-green-800"
                                 >
-                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    <svg
+                                        className="h-5 w-5"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
                                     </svg>
                                 </button>
                             </div>
@@ -196,11 +215,14 @@ export default function CatalogShow({
                 </div>
             )}
 
-            <div className="py-6 pb-12 min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
-                <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10">
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 py-6">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Back Button */}
                     <Link href="/catalog">
-                        <Button className="mb-6 bg-white text-blue-600 hover:bg-gray-100 font-bold">
+                        <Button
+                            variant="outline"
+                            className="mb-6 border-blue-300 bg-white text-gray-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700"
+                        >
                             <ArrowLeft className="mr-2 h-4 w-4" />
                             Kembali ke Katalog
                         </Button>
@@ -209,11 +231,11 @@ export default function CatalogShow({
                     <div className="grid gap-6 lg:grid-cols-3">
                         {/* Main Product Info */}
                         <div className="lg:col-span-2">
-                            <Card className="bg-white/95 backdrop-blur-sm border-2 border-blue-100 shadow-lg rounded-2xl overflow-hidden">
+                            <Card className="bg-white">
                                 <CardContent className="p-6">
                                     <div className="grid gap-6 md:grid-cols-2">
                                         {/* Product Image */}
-                                        <div className="aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-blue-100 via-blue-50 to-white">
+                                        <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
                                             {product.foto_produk ? (
                                                 <img
                                                     src={`/storage/${product.foto_produk}`}
@@ -222,7 +244,7 @@ export default function CatalogShow({
                                                 />
                                             ) : (
                                                 <div className="flex h-full w-full items-center justify-center">
-                                                    <Package className="h-24 w-24 text-blue-300" />
+                                                    <Package className="h-24 w-24 text-gray-400" />
                                                 </div>
                                             )}
                                         </div>
@@ -235,7 +257,7 @@ export default function CatalogShow({
                                                 </h1>
                                                 <Badge
                                                     variant="outline"
-                                                    className="mt-2 border-blue-300 text-blue-700 bg-blue-50 font-semibold"
+                                                    className="mt-2 border-gray-300 text-gray-700"
                                                 >
                                                     {product.category.nama}
                                                 </Badge>
@@ -262,8 +284,8 @@ export default function CatalogShow({
                                             </div>
 
                                             {/* Price */}
-                                            <div className="border-y border-blue-100 py-4">
-                                                <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
+                                            <div className="border-y border-gray-200 py-4">
+                                                <p className="text-4xl font-bold text-blue-600">
                                                     {formatPrice(product.harga)}
                                                 </p>
                                             </div>
@@ -300,10 +322,10 @@ export default function CatalogShow({
                             </Card>
 
                             {/* Seller Info */}
-                            <Card className="mt-6 bg-white/95 backdrop-blur-sm border-2 border-blue-100 shadow-lg rounded-2xl">
+                            <Card className="mt-6 bg-white">
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2 text-gray-900">
-                                        <Store className="h-5 w-5 text-blue-600" />
+                                        <Store className="h-5 w-5" />
                                         Informasi Penjual
                                     </CardTitle>
                                 </CardHeader>
@@ -313,7 +335,7 @@ export default function CatalogShow({
                                             {product.seller.nama_toko}
                                         </p>
                                         <div className="flex items-center gap-2 text-gray-600">
-                                            <MapPin className="h-4 w-4 text-blue-600" />
+                                            <MapPin className="h-4 w-4" />
                                             <span>
                                                 {product.seller.kota},{' '}
                                                 {product.seller.provinsi}
@@ -324,7 +346,7 @@ export default function CatalogShow({
                             </Card>
 
                             {/* Reviews Section */}
-                            <Card className="mt-6 bg-white/95 backdrop-blur-sm border-2 border-blue-100 shadow-lg rounded-2xl">
+                            <Card className="mt-6 bg-white">
                                 <CardHeader>
                                     <div className="flex items-center justify-between">
                                         <CardTitle className="text-gray-900">
@@ -336,7 +358,7 @@ export default function CatalogShow({
                                                     !showReviewForm,
                                                 )
                                             }
-                                            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800"
+                                            className="bg-blue-600 text-white hover:bg-blue-700"
                                         >
                                             Tulis Review
                                         </Button>
@@ -346,7 +368,7 @@ export default function CatalogShow({
                                     {/* Rating Summary */}
                                     <div className="rounded-lg bg-gray-50 p-4">
                                         <div className="grid gap-4 md:grid-cols-2">
-                                            <div className="text-center p-4 bg-gray-50 rounded-lg">
+                                            <div className="text-center">
                                                 <p className="text-5xl font-bold text-gray-900">
                                                     {averageRating.toFixed(1)}
                                                 </p>
@@ -557,10 +579,10 @@ export default function CatalogShow({
                                                             }
                                                             required
                                                         >
-                                                            <SelectTrigger className="bg-white text-gray-900 border-2 border-blue-200 focus:border-blue-500 hover:border-blue-300 transition-colors">
+                                                            <SelectTrigger className="bg-white text-gray-900">
                                                                 <SelectValue placeholder="Pilih provinsi Anda" />
                                                             </SelectTrigger>
-                                                            <SelectContent className="bg-white border-2 border-blue-100">
+                                                            <SelectContent className="bg-white">
                                                                 {provinces.map(
                                                                     (
                                                                         province,
@@ -570,7 +592,7 @@ export default function CatalogShow({
                                                                                 province.id
                                                                             }
                                                                             value={province.id.toString()}
-                                                                            className="text-gray-900 hover:bg-blue-50 focus:bg-blue-100"
+                                                                            className="text-gray-900"
                                                                         >
                                                                             {
                                                                                 province.name
@@ -676,18 +698,18 @@ export default function CatalogShow({
                                                             disabled={
                                                                 processing
                                                             }
-                                                            className="bg-blue-600 hover:bg-blue-700 text-white"
+                                                            className="bg-blue-600 hover:bg-blue-700"
                                                         >
                                                             Kirim Review
                                                         </Button>
                                                         <Button
                                                             type="button"
+                                                            variant="outline"
                                                             onClick={() =>
                                                                 setShowReviewForm(
                                                                     false,
                                                                 )
                                                             }
-                                                            className="bg-red-600 hover:bg-red-700 text-white"
                                                         >
                                                             Batal
                                                         </Button>
@@ -710,7 +732,7 @@ export default function CatalogShow({
                                             product.reviews.map((review) => (
                                                 <Card
                                                     key={review.id}
-                                                    className="bg-gradient-to-b from-blue-50/50 to-white border border-blue-100"
+                                                    className="bg-gray-50"
                                                 >
                                                     <CardContent className="p-4">
                                                         <div className="flex items-start justify-between">
@@ -750,7 +772,7 @@ export default function CatalogShow({
 
                         {/* Sidebar - Related Products */}
                         <div>
-                            <Card className="bg-white/95 backdrop-blur-sm border-2 border-blue-100 shadow-lg rounded-2xl">
+                            <Card className="bg-white shadow-md">
                                 <CardHeader>
                                     <CardTitle className="text-gray-900">
                                         Produk Terkait
@@ -768,9 +790,9 @@ export default function CatalogShow({
                                                     key={relatedProduct.id}
                                                     href={`/catalog/${relatedProduct.id}`}
                                                 >
-                                                    <Card className="overflow-hidden transition-all hover:shadow-lg hover:border-blue-300 border-2 border-blue-100 bg-white rounded-lg mb-4">
+                                                    <Card className="overflow-hidden border-gray-200 bg-white transition-shadow hover:shadow-md">
                                                         <div className="flex gap-3 p-3">
-                                                            <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded bg-gradient-to-br from-blue-100 to-blue-50">
+                                                            <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded border border-gray-200 bg-white">
                                                                 {relatedProduct.foto_produk ? (
                                                                     <img
                                                                         src={`/storage/${relatedProduct.foto_produk}`}
@@ -781,7 +803,7 @@ export default function CatalogShow({
                                                                     />
                                                                 ) : (
                                                                     <div className="flex h-full w-full items-center justify-center">
-                                                                        <Package className="h-8 w-8 text-blue-300" />
+                                                                        <Package className="h-8 w-8 text-gray-400" />
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -792,7 +814,9 @@ export default function CatalogShow({
                                                                     }
                                                                 </h4>
                                                                 <p className="mt-1 font-bold text-blue-600">
-                                                                    {formatPrice(relatedProduct.harga)}
+                                                                    {formatPrice(
+                                                                        relatedProduct.harga,
+                                                                    )}
                                                                 </p>
                                                             </div>
                                                         </div>

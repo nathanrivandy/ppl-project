@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,10 +8,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import { type SharedData } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
 import { ChevronDown, LayoutDashboard, LogOut, Search } from 'lucide-react';
-import { type ReactNode, useState, useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 interface GuestLayoutProps {
     children: ReactNode;
@@ -20,14 +20,27 @@ interface GuestLayoutProps {
     provinces?: Array<{ id: number; name: string }>;
     cities?: Array<{ id: number; name: string }>;
     onFilterChange?: (filters: any) => void;
-    filters?: { search?: string | null; category?: string | null; city?: string | null; province?: string | null };
+    filters?: {
+        search?: string | null;
+        category?: string | null;
+        city?: string | null;
+        province?: string | null;
+    };
 }
 
-export default function GuestLayout({ children, categories = [], provinces = [], cities = [], onFilterChange, filters }: GuestLayoutProps) {
+export default function GuestLayout({
+    children,
+    categories = [],
+    provinces = [],
+    cities = [],
+    onFilterChange,
+    filters,
+}: GuestLayoutProps) {
     const { auth } = usePage<SharedData>().props;
     const { url } = usePage();
     const isCatalogPage = url?.includes('/catalog');
-    const isProductPage = url?.includes('/products/') || url?.includes('/product/');
+    const isProductPage =
+        url?.includes('/products/') || url?.includes('/product/');
     const [searchQuery, setSearchQuery] = useState('');
     const isInitialized = useRef(false);
 
@@ -68,7 +81,7 @@ export default function GuestLayout({ children, categories = [], provinces = [],
 
     useEffect(() => {
         if (!onFilterChange) return; // Skip auto-search if onFilterChange not provided
-        
+
         const timer = setTimeout(() => {
             handleFilterChange();
         }, 200);
@@ -83,22 +96,32 @@ export default function GuestLayout({ children, categories = [], provinces = [],
                     <nav className="flex items-center justify-between gap-4">
                         {/* Logo */}
                         <Link href="/" className="flex items-center space-x-2">
-                            <img src="/LogoAKD.png" alt="AKD Logo" className="h-10 w-auto" />
+                            <img
+                                src="/LogoAKD.png"
+                                alt="AKD Logo"
+                                className="h-10 w-auto"
+                            />
                         </Link>
 
                         {/* Search Bar - Only on Catalog and Product Pages */}
                         {(isCatalogPage || isProductPage) && (
-                            <div className="relative group flex-1 max-w-3xl mx-8">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-600 transition-all group-hover:scale-110">
+                            <div className="group relative mx-8 max-w-3xl flex-1">
+                                <div className="absolute top-1/2 left-3 -translate-y-1/2 text-blue-600 transition-all group-hover:scale-110">
                                     <Search className="h-5 w-5" />
                                 </div>
                                 <Input
                                     type="text"
                                     placeholder="Cari produk, toko, kategori, kota, atau provinsi..."
                                     value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    onKeyDown={!onFilterChange ? handleSearch : undefined}
-                                    className="w-full pl-10 pr-4 py-2 bg-gradient-to-r from-blue-50 to-white text-gray-900 border-2 border-blue-200 rounded-lg text-sm font-medium placeholder:text-gray-400 focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition-all duration-300 shadow-sm hover:shadow-md"
+                                    onChange={(e) =>
+                                        setSearchQuery(e.target.value)
+                                    }
+                                    onKeyDown={
+                                        !onFilterChange
+                                            ? handleSearch
+                                            : undefined
+                                    }
+                                    className="w-full rounded-lg border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-white py-2 pr-4 pl-10 text-sm font-medium text-gray-900 shadow-sm transition-all duration-300 placeholder:text-gray-400 hover:shadow-md focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
                                 />
                             </div>
                         )}
@@ -108,26 +131,45 @@ export default function GuestLayout({ children, categories = [], provinces = [],
                             {auth.user ? (
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="flex items-center gap-2 h-auto py-2 hover:bg-gray-100">
+                                        <Button
+                                            variant="ghost"
+                                            className="flex h-auto items-center gap-2 py-2 hover:bg-gray-100"
+                                        >
                                             <Avatar className="h-8 w-8">
-                                                <AvatarFallback className="bg-blue-600 text-white text-sm">
-                                                    {getInitials(auth.user.name)}
+                                                <AvatarFallback className="bg-blue-600 text-sm text-white">
+                                                    {getInitials(
+                                                        auth.user.name,
+                                                    )}
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div className="flex flex-col items-start">
-                                                <span className="text-sm font-medium text-gray-900">{auth.user.name}</span>
+                                                <span className="text-sm font-medium text-gray-900">
+                                                    {auth.user.name}
+                                                </span>
                                                 {auth.user.seller && (
-                                                    <span className="text-xs text-gray-500">{auth.user.seller.nama_toko}</span>
+                                                    <span className="text-xs text-gray-500">
+                                                        {
+                                                            auth.user.seller
+                                                                .nama_toko
+                                                        }
+                                                    </span>
                                                 )}
                                             </div>
                                             <ChevronDown className="h-4 w-4 text-gray-500" />
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className="w-56">
+                                    <DropdownMenuContent
+                                        align="end"
+                                        className="w-56"
+                                    >
                                         <DropdownMenuLabel>
                                             <div className="flex flex-col">
-                                                <span className="font-medium">{auth.user.name}</span>
-                                                <span className="text-xs text-gray-500 font-normal">{auth.user.email}</span>
+                                                <span className="font-medium">
+                                                    {auth.user.name}
+                                                </span>
+                                                <span className="text-xs font-normal text-gray-500">
+                                                    {auth.user.email}
+                                                </span>
                                             </div>
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
@@ -135,14 +177,20 @@ export default function GuestLayout({ children, categories = [], provinces = [],
                                         {/* Seller/Platform Dashboard Links */}
                                         {auth.user.seller ? (
                                             <DropdownMenuItem asChild>
-                                                <Link href="/seller/dashboard" className="flex items-center gap-2 cursor-pointer">
+                                                <Link
+                                                    href="/seller/dashboard"
+                                                    className="flex cursor-pointer items-center gap-2"
+                                                >
                                                     <LayoutDashboard className="h-4 w-4" />
                                                     Dashboard Toko
                                                 </Link>
                                             </DropdownMenuItem>
                                         ) : auth.user.is_platform ? (
                                             <DropdownMenuItem asChild>
-                                                <Link href="/platform/dashboard" className="flex items-center gap-2 cursor-pointer">
+                                                <Link
+                                                    href="/platform/dashboard"
+                                                    className="flex cursor-pointer items-center gap-2"
+                                                >
                                                     <LayoutDashboard className="h-4 w-4" />
                                                     Platform Dashboard
                                                 </Link>
@@ -150,7 +198,10 @@ export default function GuestLayout({ children, categories = [], provinces = [],
                                         ) : null}
 
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={handleLogout} className="text-red-600 cursor-pointer">
+                                        <DropdownMenuItem
+                                            onClick={handleLogout}
+                                            className="cursor-pointer text-red-600"
+                                        >
                                             <LogOut className="h-4 w-4" />
                                             Logout
                                         </DropdownMenuItem>
@@ -159,10 +210,17 @@ export default function GuestLayout({ children, categories = [], provinces = [],
                             ) : (
                                 <>
                                     <Link href="/login">
-                                        <Button variant="ghost" className="text-gray-700 hover:text-gray-900 hover:bg-gray-100">Login</Button>
+                                        <Button
+                                            variant="ghost"
+                                            className="text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                        >
+                                            Login
+                                        </Button>
                                     </Link>
                                     <Link href="/register-seller">
-                                        <Button className="bg-blue-600 hover:bg-blue-700 text-white">Daftar Sebagai Penjual</Button>
+                                        <Button className="bg-blue-600 text-white hover:bg-blue-700">
+                                            Daftar Sebagai Penjual
+                                        </Button>
                                     </Link>
                                 </>
                             )}
@@ -172,7 +230,9 @@ export default function GuestLayout({ children, categories = [], provinces = [],
             </header>
 
             {/* Main Content */}
-            <main>{children}</main>
+            <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+                {children}
+            </main>
 
             {/* Footer */}
             <footer className="border-t border-gray-200 bg-white">

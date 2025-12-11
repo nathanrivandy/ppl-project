@@ -9,6 +9,10 @@
             html {
                 background-color: #ffffff;
             }
+            /* Force light mode - prevent dark mode from activating */
+            html, body {
+                color-scheme: light only;
+            }
         </style>
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>

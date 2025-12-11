@@ -124,6 +124,9 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($product->foto_produk);
             }
             $validated['foto_produk'] = $request->file('foto_produk')->store('products', 'public');
+        } else {
+            // Remove foto_produk from validated to keep existing photo
+            unset($validated['foto_produk']);
         }
 
         $product->update($validated);

@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -138,6 +138,12 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-white text-gray-900;
+        color-scheme: light only;
+    }
+
+    /* Force light theme for the app */
+    html {
+        color-scheme: light only;
     }
 }

@@ -164,17 +164,13 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                                                 href={`/seller/products/${product.id}/edit`}
                                                 className="flex-1"
                                             >
-                                                <Button
-                                                    variant="outline"
-                                                    className="w-full hover:bg-blue-50 hover:text-blue-600"
-                                                >
+                                                <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
                                                     <Pencil className="mr-2 h-4 w-4" />
                                                     Edit
                                                 </Button>
                                             </Link>
                                             <Button
-                                                variant="outline"
-                                                className="hover:bg-red-50 hover:text-red-600"
+                                                className="bg-red-600 text-white hover:bg-red-700"
                                                 onClick={() =>
                                                     handleDelete(product.id)
                                                 }
