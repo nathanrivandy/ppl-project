@@ -14,7 +14,7 @@ class CatalogController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'seller', 'reviews'])
+        $query = Product::with(['category', 'seller.city', 'reviews'])
             ->where('is_active', true);
 
         // Search by product name, category name, seller name, city, or province

@@ -21,6 +21,9 @@ interface Product {
     seller: {
         id: number;
         nama_toko: string;
+        city: {
+            name: string;
+        };
     };
     average_rating: number;
     reviews_count: number;

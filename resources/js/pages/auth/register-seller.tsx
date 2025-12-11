@@ -651,7 +651,7 @@ export default function RegisterSeller() {
                                         type="button"
                                         onClick={handleNext}
                                         disabled={!validateStep(currentStep)}
-                                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+                                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 hover:scale-105"
                                     >
                                         Selanjutnya
                                         <ChevronRight className="w-4 h-4" />
@@ -660,7 +660,7 @@ export default function RegisterSeller() {
                                     <Button
                                         type="submit"
                                         disabled={processing || !validateStep(currentStep)}
-                                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white"
+                                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white transition-all duration-200 hover:scale-105"
                                     >
                                         {processing && <Spinner />}
                                         Daftar Sekarang

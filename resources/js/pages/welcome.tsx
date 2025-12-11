@@ -91,10 +91,10 @@ export default function Welcome() {
                                 ) : (
                                     <>
                                         <Link href={login()}>
-                                            <Button variant="ghost" className="text-gray-700 hover:text-gray-900 hover:bg-gray-100">Login</Button>
+                                            <Button variant="ghost" className="text-gray-700 transition-all duration-200 hover:scale-105 hover:text-gray-900 hover:bg-gray-100">Login</Button>
                                         </Link>
                                         <Link href="/register-seller">
-                                            <Button className="bg-blue-600 hover:bg-blue-700 text-white">Daftar Sebagai Penjual</Button>
+                                            <Button className="bg-blue-600 text-white transition-all duration-200 hover:scale-105 hover:bg-blue-700">Daftar Sebagai Penjual</Button>
                                         </Link>
                                     </>
                                 )}
@@ -136,12 +136,12 @@ export default function Welcome() {
                         
                         <div className="flex gap-4 justify-center relative">
                             <Link href="/catalog">
-                                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+                                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 hover:scale-105">
                                     Jelajahi Produk
                                 </Button>
                             </Link>
                             <Link href="/register-seller">
-                                <Button size="lg" className="bg-white hover:bg-blue-50 text-blue-600 border-2 border-blue-600">
+                                <Button size="lg" className="bg-white hover:bg-blue-50 text-blue-600 border-2 border-blue-600 transition-all duration-200 hover:scale-105">
                                     Mulai Berjualan
                                 </Button>
                             </Link>
@@ -207,7 +207,7 @@ export default function Welcome() {
                             Daftarkan toko Anda sekarang
                         </p>
                         <Link href="/register-seller">
-                            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+                            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 transition-all duration-200 hover:scale-105">
                                 Daftar Sekarang
                             </Button>
                         </Link>
