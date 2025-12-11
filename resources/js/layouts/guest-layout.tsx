@@ -212,13 +212,13 @@ export default function GuestLayout({
                                     <Link href="/login">
                                         <Button
                                             variant="ghost"
-                                            className="text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                            className="text-gray-700 transition-all duration-200 hover:scale-105 hover:bg-gray-100 hover:text-gray-900"
                                         >
                                             Login
                                         </Button>
                                     </Link>
                                     <Link href="/register-seller">
-                                        <Button className="bg-blue-600 text-white hover:bg-blue-700">
+                                        <Button className="bg-blue-600 text-white transition-all duration-200 hover:scale-105 hover:bg-blue-700">
                                             Daftar Sebagai Penjual
                                         </Button>
                                     </Link>

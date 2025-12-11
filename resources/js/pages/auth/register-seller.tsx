@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Spinner } from '@/components/ui/spinner';
 import { Stepper } from '@/components/ui/stepper';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, Link } from '@inertiajs/react';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import axios from 'axios';
@@ -164,6 +164,17 @@ export default function RegisterSeller() {
             
             <div className="min-h-screen bg-gray-50 py-12">
                 <div className="container mx-auto px-4 max-w-4xl">
+                    {/* Logo */}
+                    <div className="mb-6 flex justify-center">
+                        <Link href="/">
+                            <img 
+                                src="/LogoAKD.png" 
+                                alt="AKD Market" 
+                                className="h-16 w-auto cursor-pointer hover:opacity-80 transition-opacity"
+                            />
+                        </Link>
+                    </div>
+                    
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
                         {/* Header */}
                         <div className="mb-8">
@@ -524,9 +535,8 @@ export default function RegisterSeller() {
                                 {currentStep > 1 ? (
                                     <Button
                                         type="button"
-                                        variant="outline"
                                         onClick={prevStep}
-                                        className="flex items-center gap-2"
+                                        className="flex items-center gap-2 bg-black text-white hover:bg-gray-800 transition-all duration-200 hover:scale-105"
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                         Sebelumnya
@@ -540,7 +550,7 @@ export default function RegisterSeller() {
                                         type="button"
                                         onClick={handleNext}
                                         disabled={!validateStep(currentStep)}
-                                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+                                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 hover:scale-105"
                                     >
                                         Selanjutnya
                                         <ChevronRight className="w-4 h-4" />
@@ -549,7 +559,7 @@ export default function RegisterSeller() {
                                     <Button
                                         type="submit"
                                         disabled={processing || !validateStep(currentStep)}
-                                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white"
+                                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white transition-all duration-200 hover:scale-105"
                                     >
                                         {processing && <Spinner />}
                                         Daftar Sekarang

@@ -351,7 +351,7 @@ export default function CatalogShow({
                                                     !showReviewForm,
                                                 )
                                             }
-                                            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800"
+                                            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-200 hover:scale-105"
                                         >
                                             Tulis Review
                                         </Button>
@@ -691,7 +691,7 @@ export default function CatalogShow({
                                                             disabled={
                                                                 processing
                                                             }
-                                                            className="bg-blue-600 hover:bg-blue-700 text-white"
+                                                            className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 hover:scale-105"
                                                         >
                                                             Kirim Review
                                                         </Button>
@@ -702,7 +702,7 @@ export default function CatalogShow({
                                                                     false,
                                                                 )
                                                             }
-                                                            className="bg-red-600 hover:bg-red-700 text-white"
+                                                            className="bg-red-600 hover:bg-red-700 text-white transition-all duration-200 hover:scale-105"
                                                         >
                                                             Batal
                                                         </Button>
