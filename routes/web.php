@@ -131,6 +131,9 @@ Route::middleware(['auth', 'verified', 'platform'])->prefix('platform')->name('p
         ->name('reports.seller-by-province');
     Route::get('reports/product-rating', [ReportController::class, 'productRatingReport'])
         ->name('reports.product-rating');
+    
+    // Category Management
+    Route::resource('categories', \App\Http\Controllers\Platform\CategoryController::class);
 });
 
 // Seller Routes
