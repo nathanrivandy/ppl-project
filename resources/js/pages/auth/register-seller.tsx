@@ -13,7 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import axios from 'axios';
@@ -244,13 +244,16 @@ export default function RegisterSeller() {
                 <div className="absolute bottom-10 right-32 w-5 h-5 rounded-full bubble" style={{ animation: 'float_9 5.8s ease-in-out infinite 0.4s' }}></div>
                 
                 <div className="container mx-auto px-4 max-w-4xl relative z-10">
+                    {/* Logo */}
+                    <div className="mb-6 flex justify-center">
+                        <Link href="/">
+                            <div className="bg-white rounded-lg px-3 py-2 shadow-lg hover:shadow-xl transition-all duration-200">
+                                <img src="/LogoAKD.png" alt="AKD Market" className="h-10 w-auto" />
+                            </div>
+                        </Link>
+                    </div>
+                    
                     <div className="bg-white rounded-lg shadow-lg border border-white/20 p-8">
-                        {/* Header */}
-                        <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-white">Registrasi Penjual</h1>
-                            <p className="text-white/80 mt-2">Daftar sebagai penjual di marketplace</p>
-                        </div>
-
                         {/* Stepper */}
                         <div className="mb-12 flex justify-center">
                             <Stepper steps={steps} currentStep={currentStep} />

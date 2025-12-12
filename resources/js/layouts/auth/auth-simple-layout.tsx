@@ -76,6 +76,16 @@ export default function AuthSimpleLayout({
             <div className="w-full max-w-sm relative z-10">
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col items-center gap-4">
+                        {/* Logo */}
+                        <Link href={home()}>
+                            <div className="bg-white rounded-lg px-3 py-2 shadow-lg hover:shadow-xl transition-all duration-200">
+                                <img 
+                                    src="/LogoAKD.png" 
+                                    alt="AKD Market" 
+                                    className="h-10 w-auto"
+                                />
+                            </div>
+                        </Link>
                         <div className="space-y-2 text-center">
                             <h1 className="text-xl font-medium text-white">{title}</h1>
                             <p className="text-center text-sm text-white/80">

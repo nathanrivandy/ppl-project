@@ -227,9 +227,16 @@ export default function CatalogIndex({ products, categories, filters }: Props) {
                                                         Stok: {product.stok}
                                                     </Badge>
                                                 </div>
-                                                <p className="text-xs text-gray-900 font-bold mb-0 pt-0.5 border-t border-blue-100">
-                                                    {product.seller.nama_toko}
-                                                </p>
+                                                <div className="relative h-4 overflow-hidden border-t border-blue-100 pt-0.5">
+                                                    <div className="absolute inset-0 flex flex-col transition-transform duration-500 group-hover:-translate-y-4">
+                                                        <p className="text-xs text-blue-700 font-bold h-4 flex items-center">
+                                                            {product.seller.nama_toko}
+                                                        </p>
+                                                        <p className="text-xs text-blue-700 font-bold h-4 flex items-center">
+                                                            {product.seller.city.name}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </CardContent>
                                         </Card>
                                     </Link>
