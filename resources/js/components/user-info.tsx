@@ -10,12 +10,22 @@ export function UserInfo({
     showEmail?: boolean;
 }) {
     const getInitials = useInitials();
+    
+    // Untuk platform role, gunakan MainLogoAKD.png
+    // Untuk penjual, gunakan foto_pic dari seller profile
+    let avatarSrc: string | undefined;
+    
+    if (user.role === 'platform') {
+        avatarSrc = '/MainLogoAKD.png';
+    } else if (user.role === 'penjual' && user.seller?.foto_pic) {
+        avatarSrc = `/storage/${user.seller.foto_pic}`;
+    }
 
     return (
         <>
             <Avatar className="h-8 w-8 overflow-hidden rounded-full">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                <AvatarImage src={avatarSrc} alt={user.name} />
+                <AvatarFallback className="rounded-lg bg-blue-500 text-white font-semibold">
                     {getInitials(user.name)}
                 </AvatarFallback>
             </Avatar>

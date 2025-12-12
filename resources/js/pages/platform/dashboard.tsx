@@ -42,59 +42,20 @@ export default function PlatformDashboard({
         <AppLayout>
             <Head title="Dashboard Platform" />
 
-            <div className="py-12 bg-gray-50 min-h-screen">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    {/* Header */}
-                    <div className="mb-8">
-                        <div className="flex justify-between items-start">
-                            <div>
-                                <h1 className="text-3xl font-bold text-gray-900">Dashboard Platform</h1>
-                                <p className="mt-2 text-gray-600">Selamat datang di dashboard administrasi platform</p>
-                            </div>
-                            <div className="flex gap-2">
-                                <a
-                                    href="/platform/reports/seller-status"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                                        <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-                                        PDF Laporan Status Penjual
-                                    </Button>
-                                </a>
-                                <a
-                                    href="/platform/reports/seller-by-province"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <Button className="bg-green-600 hover:bg-green-700 text-white">
-                                        <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-                                        PDF Laporan Per Provinsi
-                                    </Button>
-                                </a>
-                                <a
-                                    href="/platform/reports/product-rating"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <Button className="bg-yellow-600 hover:bg-yellow-700 text-white">
-                                        <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-                                        PDF Laporan Rating Produk
-                                    </Button>
-                                </a>
-                            </div>
-                        </div>
+            <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
+                {/* Header - Full Width */}
+                <div className="bg-gradient-to-r from-white/20 via-white/10 to-transparent backdrop-blur-sm border-b border-white/30 py-6 mb-6">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <h1 className="text-3xl font-bold text-white drop-shadow-lg">Dashboard Platform</h1>
+                        <p className="mt-2 text-white">Selamat datang di dashboard administrasi platform</p>
                     </div>
+                </div>
+
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-12">
 
                     {/* Statistics Cards */}
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <div className="flex items-center">
                                 <div className="flex-shrink-0 bg-blue-100 rounded-md p-3">
                                     <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -108,7 +69,7 @@ export default function PlatformDashboard({
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <div className="flex items-center">
                                 <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
                                     <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -122,7 +83,7 @@ export default function PlatformDashboard({
                             </div>
                         </div>
 
-                        <Link href="/platform/sellers/verification" className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                        <Link href="/platform/sellers/verification" className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <div className="flex items-center">
                                 <div className="flex-shrink-0 bg-yellow-100 rounded-md p-3">
                                     <svg className="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -136,7 +97,7 @@ export default function PlatformDashboard({
                             </div>
                         </Link>
 
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <div className="flex items-center">
                                 <div className="flex-shrink-0 bg-purple-100 rounded-md p-3">
                                     <svg className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -154,7 +115,7 @@ export default function PlatformDashboard({
                     {/* Charts Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Produk Berdasarkan Kategori */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Produk Berdasarkan Kategori</h3>
                             <ResponsiveContainer width="100%" height={300}>
                                 <BarChart data={productsByCategory}>
@@ -168,7 +129,7 @@ export default function PlatformDashboard({
                         </div>
 
                         {/* Toko Berdasarkan Provinsi */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Sebaran Toko Berdasarkan Provinsi</h3>
                             <ResponsiveContainer width="100%" height={300}>
                                 <BarChart data={sellersByProvince}>
@@ -182,7 +143,7 @@ export default function PlatformDashboard({
                         </div>
 
                         {/* Status Penjual */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Status User Penjual</h3>
                             <ResponsiveContainer width="100%" height={300}>
                                 <PieChart>
@@ -207,7 +168,7 @@ export default function PlatformDashboard({
                         </div>
 
                         {/* Pengunjung dengan Komentar & Rating */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Pengunjung Memberikan Komentar & Rating</h3>
                             <ResponsiveContainer width="100%" height={300}>
                                 <PieChart>
@@ -229,6 +190,54 @@ export default function PlatformDashboard({
                                     <Tooltip contentStyle={{ backgroundColor: '#fff', border: '1px solid #e5e7eb', borderRadius: '6px' }} />
                                 </PieChart>
                             </ResponsiveContainer>
+                        </div>
+                    </div>
+
+                    {/* Report Buttons */}
+                    <div className="mt-8 bg-white rounded-lg shadow-md border border-blue-100 p-6">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Unduh Laporan</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {/* Laporan Status Penjual */}
+                            <a
+                                href="/platform/reports/seller-status"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 hover:scale-105">
+                                    <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    PDF Laporan Status Penjual
+                                </Button>
+                            </a>
+
+                            {/* Laporan Penjual per Provinsi */}
+                            <a
+                                href="/platform/reports/seller-by-province"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Button className="w-full bg-green-600 hover:bg-green-700 text-white transition-all duration-200 hover:scale-105">
+                                    <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    PDF Laporan Per Provinsi
+                                </Button>
+                            </a>
+
+                            {/* Laporan Rating Produk */}
+                            <a
+                                href="/platform/reports/product-rating"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white transition-all duration-200 hover:scale-105">
+                                    <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    PDF Laporan Rating Produk
+                                </Button>
+                            </a>
                         </div>
                     </div>
                 </div>

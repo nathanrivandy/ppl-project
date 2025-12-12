@@ -47,97 +47,21 @@ export default function SellerDashboard({
         <AppLayout>
             <Head title="Dashboard Penjual" />
 
-            <div className="py-12 bg-gray-50 min-h-screen">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    {/* Header */}
-                    <div className="mb-8">
-                        <div className="flex justify-between items-start">
-                            <div>
-                                <h1 className="text-3xl font-bold text-gray-900">Dashboard Penjual</h1>
-                                <p className="mt-2 text-gray-600">
-                                    Selamat datang, {seller.nama_toko}
-                                </p>
-                            </div>
-
-                            <div className="flex gap-2">
-                                {/* Laporan stok produk (SRS-12) */}
-                                <a
-                                    href="/seller/reports/stock-desc"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                                        <svg
-                                            className="w-4 h-4 mr-2"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                                            />
-                                        </svg>
-                                        PDF Laporan Stok Produk
-                                    </Button>
-                                </a>
-
-                                {/* Laporan rating produk (SRS-13) */}
-                                <a
-                                    href="/seller/reports/rating-desc"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <Button className="bg-green-600 hover:bg-green-700 text-white">
-                                        <svg
-                                            className="w-4 h-4 mr-2"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                                            />
-                                        </svg>
-                                        PDF Laporan Rating Produk
-                                    </Button>
-                                </a>
-
-                                {/* Laporan stok hampir habis (SRS-14) */}
-                                <a
-                                    href="/seller/reports/low-stock"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <Button className="bg-yellow-600 hover:bg-yellow-700 text-white">
-                                        <svg
-                                            className="w-4 h-4 mr-2"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                                            />
-                                        </svg>
-                                        PDF Laporan Produk Segera Dipesan
-                                    </Button>
-                                </a>
-                            </div>
-                        </div>
+            <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
+                {/* Header - Full Width */}
+                <div className="bg-gradient-to-r from-white/20 via-white/10 to-transparent backdrop-blur-sm border-b border-white/30 py-6 mb-6">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <h1 className="text-3xl font-bold text-white drop-shadow-lg">Dashboard Penjual</h1>
+                        <p className="mt-2 text-white">
+                            Selamat datang, {seller.nama_toko}
+                        </p>
                     </div>
+                </div>
 
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-12">
                     {/* Statistics Cards */}
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <div className="flex items-center">
                                 <div className="flex-shrink-0 bg-blue-100 rounded-md p-3">
                                     <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -151,7 +75,7 @@ export default function SellerDashboard({
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <div className="flex items-center">
                                 <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
                                     <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -165,7 +89,7 @@ export default function SellerDashboard({
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <div className="flex items-center">
                                 <div className="flex-shrink-0 bg-yellow-100 rounded-md p-3">
                                     <svg className="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -179,7 +103,7 @@ export default function SellerDashboard({
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <div className="flex items-center">
                                 <div className="flex-shrink-0 bg-purple-100 rounded-md p-3">
                                     <svg className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -197,7 +121,7 @@ export default function SellerDashboard({
                     {/* Charts Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Stok Produk */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Stok Setiap Produk</h3>
                             {productStock.length > 0 ? (
                                 <ResponsiveContainer width="100%" height={300}>
@@ -221,7 +145,7 @@ export default function SellerDashboard({
                         </div>
 
                         {/* Rating per Produk */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow duration-200">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Rating per Produk</h3>
                             {productRatings.length > 0 ? (
                                 <ResponsiveContainer width="100%" height={300}>
@@ -245,7 +169,7 @@ export default function SellerDashboard({
                         </div>
 
                         {/* Pemberi Rating Berdasarkan Provinsi */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:col-span-2">
+                        <div className="bg-white rounded-lg shadow-md border border-blue-100 p-6 lg:col-span-2 hover:shadow-lg transition-shadow duration-200">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Pemberi Rating Berdasarkan Provinsi</h3>
                             {ratingsByProvince.length > 0 ? (
                                 <ResponsiveContainer width="100%" height={300}>
@@ -266,6 +190,84 @@ export default function SellerDashboard({
                                     </div>
                                 </div>
                             )}
+                        </div>
+                    </div>
+
+                    {/* Report Buttons */}
+                    <div className="mt-8 bg-white rounded-lg shadow-md border border-blue-100 p-6">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Unduh Laporan</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {/* Laporan stok produk (SRS-12) */}
+                            <a
+                                href="/seller/reports/stock-desc"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 hover:scale-105">
+                                    <svg
+                                        className="w-4 h-4 mr-2"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                        />
+                                    </svg>
+                                    PDF Laporan Stok Produk
+                                </Button>
+                            </a>
+
+                            {/* Laporan rating produk (SRS-13) */}
+                            <a
+                                href="/seller/reports/rating-desc"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Button className="w-full bg-green-600 hover:bg-green-700 text-white transition-all duration-200 hover:scale-105">
+                                    <svg
+                                        className="w-4 h-4 mr-2"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                        />
+                                    </svg>
+                                    PDF Laporan Rating Produk
+                                </Button>
+                            </a>
+
+                            {/* Laporan stok hampir habis (SRS-14) */}
+                            <a
+                                href="/seller/reports/low-stock"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white transition-all duration-200 hover:scale-105">
+                                    <svg
+                                        className="w-4 h-4 mr-2"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                        />
+                                    </svg>
+                                    PDF Laporan Produk Segera Dipesan
+                                </Button>
+                            </a>
                         </div>
                     </div>
 

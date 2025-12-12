@@ -1,16 +1,16 @@
-import AppLogoIcon from './app-logo-icon';
+import { useSidebar } from '@/components/ui/sidebar';
 
 export default function AppLogo() {
+    const { state } = useSidebar();
+    const isCollapsed = state === 'collapsed';
+
     return (
-        <>
-            <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
-            </div>
-            <div className="ml-1 grid flex-1 text-left text-sm">
-                <span className="mb-0.5 truncate leading-tight font-semibold">
-                    AkadeMarket
-                </span>
-            </div>
-        </>
+        <div className="flex items-center justify-center w-full">
+            <img 
+                src={isCollapsed ? '/MainLogoAKD.png' : '/LogoAKD.png'}
+                alt="AkadeMarket Logo" 
+                className={isCollapsed ? "h-8 w-8 object-contain" : "h-8 w-auto"}
+            />
+        </div>
     );
 }
