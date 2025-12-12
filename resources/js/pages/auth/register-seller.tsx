@@ -215,13 +215,19 @@ export default function RegisterSeller() {
             case 1:
                 return !!(data.nama_toko && data.deskripsi_singkat);
             case 2:
-                // Check if fields are filled and phone number has basic format
+                // Check if fields are filled
                 if (!data.nama_pic || !data.email_pic || !data.no_handphone_pic) {
                     return false;
                 }
-                // Basic phone validation - at least 10 characters and starts with 0 or +
+                // Strict phone validation - only numbers, +, -, and spaces allowed
                 const phone = data.no_handphone_pic.trim();
-                return phone.length >= 10 && (phone.startsWith('0') || phone.startsWith('+62'));
+                const phoneRegex = /^[0-9+\-\s]+$/;
+                if (!phoneRegex.test(phone)) {
+                    return false;
+                }
+                // Must start with 0 or +62 and have at least 10 digits
+                const digitsOnly = phone.replace(/[^0-9]/g, '');
+                return digitsOnly.length >= 10 && (phone.startsWith('0') || phone.startsWith('+62'));
             case 3:
                 return !!(
                     data.alamat_jalan &&
@@ -446,10 +452,17 @@ export default function RegisterSeller() {
                                             value={data.no_handphone_pic}
                                             onChange={(e) => {
                                                 const value = e.target.value;
-                                                setData('no_handphone_pic', value);
-                                                // Clear error when user types
-                                                if (phoneError) {
-                                                    setPhoneError('');
+                                                // Only allow numbers, +, -, and spaces
+                                                const phoneRegex = /^[0-9+\-\s]*$/;
+                                                if (phoneRegex.test(value) || value === '') {
+                                                    setData('no_handphone_pic', value);
+                                                    // Clear error when user types valid characters
+                                                    if (phoneError) {
+                                                        setPhoneError('');
+                                                    }
+                                                } else {
+                                                    // Show error immediately if invalid character entered
+                                                    setPhoneError('Hanya angka, +, -, dan spasi yang diperbolehkan');
                                                 }
                                             }}
                                             onBlur={() => {

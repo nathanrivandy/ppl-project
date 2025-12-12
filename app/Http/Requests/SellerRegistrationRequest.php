@@ -49,4 +49,16 @@ class SellerRegistrationRequest extends FormRequest
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
+
+    /**
+     * Get custom validation messages.
+     */
+    public function messages(): array
+    {
+        return [
+            'no_handphone_pic.regex' => 'Nomor handphone hanya boleh berisi angka, tanda +, tanda -, dan spasi.',
+            'no_handphone_pic.required' => 'Nomor handphone wajib diisi.',
+            'no_handphone_pic.max' => 'Nomor handphone maksimal 20 karakter.',
+        ];
+    }
 }
