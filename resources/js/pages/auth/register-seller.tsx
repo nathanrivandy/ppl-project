@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler, useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, AlertCircle, X } from 'lucide-react';
 import axios from 'axios';
 
 interface Location {
@@ -30,6 +30,8 @@ export default function RegisterSeller() {
     const [cities, setCities] = useState<Location[]>([]);
     const [districts, setDistricts] = useState<Location[]>([]);
     const [villages, setVillages] = useState<Location[]>([]);
+    const [phoneError, setPhoneError] = useState<string>('');
+    const [errorAlert, setErrorAlert] = useState<string>('');
 
     const steps = [
         { id: 1, title: 'Data Toko', description: 'Informasi toko' },
@@ -113,20 +115,98 @@ export default function RegisterSeller() {
         }
     }, [data.district_id, districts]);
 
+    // Handle errors from backend
+    useEffect(() => {
+        if (Object.keys(errors).length > 0) {
+            // Find which step has errors
+            const errorFields = Object.keys(errors);
+            let errorStep = 1;
+            
+            if (errorFields.some(f => ['nama_pic', 'email_pic', 'no_handphone_pic'].includes(f))) {
+                errorStep = 2;
+            } else if (errorFields.some(f => ['alamat_jalan', 'rt', 'rw', 'province_id', 'city_id', 'district_id', 'village_id'].includes(f))) {
+                errorStep = 3;
+            } else if (errorFields.some(f => ['no_ktp', 'foto_pic', 'file_ktp', 'password', 'password_confirmation'].includes(f))) {
+                errorStep = 4;
+            }
+            
+            // Navigate to error step
+            setCurrentStep(errorStep);
+            
+            // Show alert
+            const firstError = Object.values(errors)[0];
+            setErrorAlert(firstError as string);
+            
+            // Auto-hide alert after 5 seconds
+            setTimeout(() => {
+                setErrorAlert('');
+            }, 5000);
+        }
+    }, [errors]);
+
+    const validatePhoneNumber = (phone: string): boolean => {
+        // Check if phone number only contains numbers, +, -, and spaces
+        const phoneRegex = /^[0-9+\-\s]+$/;
+        if (!phoneRegex.test(phone)) {
+            setPhoneError('Nomor handphone hanya boleh berisi angka, +, -, dan spasi');
+            return false;
+        }
+        // Check if phone starts with 0 or +62
+        if (!phone.startsWith('0') && !phone.startsWith('+62')) {
+            setPhoneError('Nomor handphone harus diawali dengan 0 atau +62');
+            return false;
+        }
+        // Check minimum length (10 digits for Indonesian phone numbers)
+        const digitsOnly = phone.replace(/[^0-9]/g, '');
+        if (digitsOnly.length < 10 || digitsOnly.length > 15) {
+            setPhoneError('Nomor handphone harus 10-15 digit');
+            return false;
+        }
+        setPhoneError('');
+        return true;
+    };
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post('/register-seller');
+        
+        // Clear any existing errors
+        setErrorAlert('');
+        
+        // Validate phone number before submit
+        if (!validatePhoneNumber(data.no_handphone_pic)) {
+            setCurrentStep(2); // Navigate to step 2 where phone number is
+            setErrorAlert(phoneError);
+            // Auto-hide alert after 5 seconds
+            setTimeout(() => {
+                setErrorAlert('');
+            }, 5000);
+            return;
+        }
+        
+        post('/register-seller', {
+            preserveScroll: true,
+            onError: (errors) => {
+                // Errors will be handled by useEffect above
+                console.error('Registration errors:', errors);
+            },
+            onFinish: () => {
+                // This ensures processing state is always reset
+                console.log('Form submission finished');
+            }
+        });
     };
 
     const nextStep = () => {
         if (currentStep < steps.length) {
             setCurrentStep(currentStep + 1);
+            setErrorAlert(''); // Clear error when moving to next step
         }
     };
 
     const prevStep = () => {
         if (currentStep > 1) {
             setCurrentStep(currentStep - 1);
+            setErrorAlert(''); // Clear error when moving to previous step
         }
     };
 
@@ -135,7 +215,13 @@ export default function RegisterSeller() {
             case 1:
                 return !!(data.nama_toko && data.deskripsi_singkat);
             case 2:
-                return !!(data.nama_pic && data.email_pic && data.no_handphone_pic);
+                // Check if fields are filled and phone number has basic format
+                if (!data.nama_pic || !data.email_pic || !data.no_handphone_pic) {
+                    return false;
+                }
+                // Basic phone validation - at least 10 characters and starts with 0 or +
+                const phone = data.no_handphone_pic.trim();
+                return phone.length >= 10 && (phone.startsWith('0') || phone.startsWith('+62'));
             case 3:
                 return !!(
                     data.alamat_jalan &&
@@ -259,6 +345,24 @@ export default function RegisterSeller() {
                             <Stepper steps={steps} currentStep={currentStep} />
                         </div>
 
+                        {/* Error Alert */}
+                        {errorAlert && (
+                            <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3 animate-in fade-in duration-300">
+                                <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                                <div className="flex-1">
+                                    <h3 className="text-sm font-semibold text-red-900">Error Validasi</h3>
+                                    <p className="text-sm text-red-700 mt-1">{errorAlert}</p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setErrorAlert('')}
+                                    className="text-red-400 hover:text-red-600 transition-colors"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+                        )}
+
                         <form onSubmit={submit} className="flex flex-col gap-6">
                             {/* Step 1: Data Toko */}
                             {currentStep === 1 && (
@@ -340,12 +444,31 @@ export default function RegisterSeller() {
                                             id="no_handphone_pic"
                                             type="tel"
                                             value={data.no_handphone_pic}
-                                            onChange={(e) => setData('no_handphone_pic', e.target.value)}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                setData('no_handphone_pic', value);
+                                                // Clear error when user types
+                                                if (phoneError) {
+                                                    setPhoneError('');
+                                                }
+                                            }}
+                                            onBlur={() => {
+                                                // Validate on blur
+                                                if (data.no_handphone_pic) {
+                                                    validatePhoneNumber(data.no_handphone_pic);
+                                                }
+                                            }}
                                             required
                                             className="bg-white border-gray-300"
-                                            placeholder="08xxxxxxxxxx"
+                                            placeholder="08xxxxxxxxxx atau +62xxx"
                                         />
-                                        <InputError message={errors.no_handphone_pic} />
+                                        {!phoneError && !errors.no_handphone_pic && (
+                                            <p className="text-xs text-gray-500">
+                                                Format: 08xxxxxxxxxx atau +62xxxxxxxxxx (10-15 digit)
+                                            </p>
+                                        )}
+                                        {phoneError && <InputError message={phoneError} />}
+                                        {!phoneError && errors.no_handphone_pic && <InputError message={errors.no_handphone_pic} />}
                                     </div>
                                 </div>
                             )}
